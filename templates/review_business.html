@@ -1,0 +1,41 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+	<div class="row">
+		<div class="col-md-12">
+			<h4>Business {{ id }}</h4>
+			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae amet itaque vel ad veritatis nostrum magni reiciendis quae, maxime facere quidem voluptas cum recusandae consequuntur est eveniet totam hic. Nesciunt!</p>
+			<hr>
+			<form action="review/business/<string:id>" method="POST">				
+				<div class="form-group">
+					<label for=""><small>Add Review</small></label>
+					<input type="text" name="review" class="form-control" value="">
+				</div>
+				<button class="btn btn-primary btn-block btn-md">POST</button>
+			</form>
+		</div>
+	</div>
+	<br>
+	<br>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="panel panel-warning">
+			  <div class="panel-heading">Reviews</div>
+			  <div class="panel-body">
+			  	<h5>Heading</h5>
+			    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis, aut at et, ratione id debitis, necessitatibus iure repellendus eveniet explicabo labore perferendis! Maiores nobis minima error impedit ab officia amet?</p>
+			    <hr>
+			    <h5>Heading</h5>
+			    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis, aut at et, ratione id debitis, necessitatibus iure repellendus eveniet explicabo labore perferendis! Maiores nobis minima error impedit ab officia amet?</p>
+			    <hr>
+			    <h5>Heading</h5>
+			    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis, aut at et, ratione id debitis, necessitatibus iure repellendus eveniet explicabo labore perferendis! Maiores nobis minima error impedit ab officia amet?</p>
+			    <hr>
+			  </div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
