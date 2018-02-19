@@ -1,0 +1,61 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="jumbotron">
+	            <h4>Business {{ id }}</h4>
+	            <p>We at Business {{ id }} are tailored to suit your needs</p>   
+	            <hr>     
+	            <a href="/edit/business/{{id}}" class="btn btn-warning btn-md">Update Business</a>        
+			    	
+			</div>
+
+			
+		</div>
+	</div>
+	<hr>
+	<div class="row">
+		<div class="col-md-12">
+			<h4>Description</h4>
+			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum quam ad nam molestiae. Qui tempore, laudantium ex. Quaerat unde aperiam quo, voluptatibus adipisci. Laudantium ut delectus cumque voluptatem minima blanditiis.</p>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-9">
+			<div class="panel panel-default">
+			  <div class="panel-heading">Our Services</div>
+			  <div class="panel-body">
+			  	<h6>Service One</h6>
+			    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis, aut at et, ratione id debitis, necessitatibus iure repellendus eveniet explicabo labore perferendis! Maiores nobis minima error impedit ab officia amet?</p>
+			    <hr>
+			    <h6>Service One</h6>
+			    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis, aut at et, ratione id debitis, necessitatibus iure repellendus eveniet explicabo labore perferendis! Maiores nobis minima error impedit ab officia amet?</p>
+			    <hr>
+			    <h6>Service One</h6>
+			    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis, aut at et, ratione id debitis, necessitatibus iure repellendus eveniet explicabo labore perferendis! Maiores nobis minima error impedit ab officia amet?</p>
+			    <hr>
+			  </div>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<h4>Reviews</h4>
+			<ul class="list-group">
+				<li class="list-group-item">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis</li>
+				<li class="list-group-item">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis</li>
+				<li class="list-group-item">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis</li>
+				<li class="list-group-item">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis</li>
+			</ul>
+			<form action="" method="POST">
+				
+				<div class="form-group">
+					<label for=""><small>Add Comment</small></label>
+					<input type="text" name="review" class="form-control" value="">
+				</div>
+				<button class="btn btn-block btn-md">POST</button>
+			</form>
+		</div>
+	</div>
+
+{% endblock %}
