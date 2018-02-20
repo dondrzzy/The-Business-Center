@@ -5,7 +5,7 @@ sys.path.append(os.path.dirname(CURRENT_DIR+'\\models\\reviews.py'))
 print(sys.path)
 
 from flask import session
-from business import Business
+from app.models.business import Business
 
 business = Business()
 
