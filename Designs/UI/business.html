@@ -1,17 +1,54 @@
-{% extends 'layout.html' %}
 
-{% block body %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>The Business Center</title>
+		<link rel="icon" href="../static/images/icon.png">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-	<div class="row">
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+
+	</head>
+	<body>
+
+		<nav class="navbar navbar-default">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a href="/" class="navbar-brand">The Business Center</a>
+          </div>
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              <li ><a href="/dashboard.html">Dashboard</a></li>
+              <li ><a href="/businesses.html">Businesses</a></li>
+              
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li ><a href="user_login.html">Login</a></li>  
+              <li ><a href="user_signup.html">Sign up</a></li>  
+              
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div><!--/.container-fluid -->
+      </nav>
+
+		<div class="container">
+			
+
+		<div class="row">
 		<div class="col-md-12">
 			<div class="jumbotron">
-
 	            <h3>Business {{ id }} | <span>Category</span></h3>
 	            <p>We at Business {{ id }} are tailored to suit your needs</p>   
 	            <hr>     
 	            <a data-toggle="modal" data-target="#myModal" class="btn btn-primary btn-sm">Update Business</a>        
 			    <a href="javascript:void(0)" id="edit_b" class="btn btn-danger btn-sm">Delete</a>        
-
 			</div>
 
 			
@@ -26,9 +63,7 @@
 	</div>
 	<div class="row">
 		<div class="col-md-9">
-
 			<div class="panel panel-warning">
-
 			  <div class="panel-heading">Our Services</div>
 			  <div class="panel-body">
 			  	<h6>Service One</h6>
@@ -44,7 +79,6 @@
 			</div>
 		</div>
 		<div class="col-md-3">
-
 			<h4>Reviews <small><i class="fas fa-comment"></i></small></h4>
 			<ul class="list-group">
 				<li class="list-group-item">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis
@@ -52,7 +86,6 @@
 						<small>By <a href=""><b>User</b></a> on date</small>
 					</div>
 				</li>
-
 				<li class="list-group-item">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis</li>
 				<li class="list-group-item">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis</li>
 				<li class="list-group-item">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis</li>
@@ -67,7 +100,6 @@
 			</form>
 		</div>
 	</div>
-
 
 	<!-- Modal -->
 	<div id="myModal" class="modal fade" role="dialog">
@@ -127,7 +159,12 @@
 		</div>
 	</div>
 
-	<script>
+		
+
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+		<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> 
+		<script>
 	$(document).ready(function(){
 		$("#edit_b").on("click", function(e){
 			e.preventDefault()
@@ -153,6 +190,9 @@
 	})
 </script>
 
-{% endblock %}
+	</body>
+</html>
+
+
 
 

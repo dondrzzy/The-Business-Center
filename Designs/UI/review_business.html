@@ -1,0 +1,92 @@
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>The Business Center</title>
+		<link rel="icon" href="../static/images/icon.png">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+
+	</head>
+	<body>
+
+		<nav class="navbar navbar-default">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a href="/" class="navbar-brand">The Business Center</a>
+          </div>
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              <li ><a href="/dashboard.html">Dashboard</a></li>
+              <li ><a href="/businesses.html">Businesses</a></li>
+              
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li ><a href="user_login.html">Login</a></li>  
+              <li ><a href="user_signup.html">Sign up</a></li>  
+              
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div><!--/.container-fluid -->
+      </nav>
+
+		<div class="container">
+			
+
+		<div class="row">
+				<div class="col-md-12">
+					<h4>Business {{ id }}</h4>
+					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae amet itaque vel ad veritatis nostrum magni reiciendis quae, maxime facere quidem voluptas cum recusandae consequuntur est eveniet totam hic. Nesciunt!</p>
+					<hr>
+					<form action="review/business/<string:id>" method="POST">				
+						<div class="form-group">
+							<label for=""><small>Add Review</small></label>
+							<input type="text" name="review" class="form-control" value="">
+						</div>
+						<button class="btn btn-primary btn-block btn-md">POST</button>
+					</form>
+				</div>
+			</div>
+			<br>
+			<br>
+
+			<div class="row">
+				<div class="col-md-12">
+					<div class="panel panel-warning">
+					  <div class="panel-heading">Reviews</div>
+					  <div class="panel-body">
+					  	<h5>Heading</h5>
+					    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis, aut at et, ratione id debitis, necessitatibus iure repellendus eveniet explicabo labore perferendis! Maiores nobis minima error impedit ab officia amet?</p>
+					    <hr>
+					    <h5>Heading</h5>
+					    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis, aut at et, ratione id debitis, necessitatibus iure repellendus eveniet explicabo labore perferendis! Maiores nobis minima error impedit ab officia amet?</p>
+					    <hr>
+					    <h5>Heading</h5>
+					    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis, aut at et, ratione id debitis, necessitatibus iure repellendus eveniet explicabo labore perferendis! Maiores nobis minima error impedit ab officia amet?</p>
+					    <hr>
+					  </div>
+					</div>
+				</div>
+			</div>
+		
+
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+		<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> 
+	</body>
+</html>
+
+
+
+
+
+
+			
