@@ -5,6 +5,11 @@ app = Flask(__name__)
 
 app.config['SECRET_KEY'] = 'secret'
 
+
+@app.route('/')
+def index():
+	return render_template('home.html')
+
 @app.route('/login', methods=['GET', 'POST'])
 def user_login():
 	if request.method == 'POST':
