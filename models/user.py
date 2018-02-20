@@ -1,4 +1,5 @@
 from flask import session
+
 class User(object):
 	"""docstring for User"""
 	def __init__(self, id = 0, users = [{"id":1, "name":"Sibo", "email":"test@gmail.com", "password":"1234"}]):

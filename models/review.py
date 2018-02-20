@@ -1,22 +1,15 @@
 import os, sys
-CURRENT_DIR = os.path.dirname(os.path.abspath('reviews.py'))
-sys.path.append(os.path.dirname(CURRENT_DIR))
-sys.path.append(os.path.dirname(CURRENT_DIR+'\\models\\reviews.py'))
-print(sys.path)
-
 from flask import session
-from app.models.business import Business
+from .business import Business
 
-business = Business()
-
-class Review(object):
+class Review(Business):
 	
 	def __init__(self, reviews=[]):
 		self.reviews = reviews
 
 
 	def addReview(self, rev, bid):	
-		print(business.getBusiness(bid))
+		print(self.getBusiness(bid))
 		new_rev = {
 			"id" : len(self.reviews)+1,
 			"businessId" : bid,
