@@ -23,9 +23,8 @@ app.config['SECRET_KEY'] = 'secret'
 # users = [{"id":1, "name":"Sibo", "email":"test@gmail.com", "password":"1234"}]
 
 
-@app.route('/')
-def index():
-	
+@app.route('/', methods=["GET"])
+def index():	
 	return jsonify({"user":"Hello there"})
 
 @app.route('/api/auth/register', methods=['POST'])
