@@ -70,7 +70,6 @@ def login():
 		return jsonify({"success":False, "msg":"Already logged in. Redirecting..."})
 
 	res = user.login(user_obj)
-	pprint(res)
 	if res["success"] and res["pwd"]:
 		session['logged_in'] = True
 		session['email'] = data['email']

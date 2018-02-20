@@ -1,4 +1,3 @@
-import os, sys
 from flask import session
 from .business import Business
 
