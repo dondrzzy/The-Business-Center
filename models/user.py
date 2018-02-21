@@ -10,7 +10,6 @@ class User(object):
 	def register(self, _user):
 		for user in self.users:
 			if _user["email"] == user["email"]:
-				print('found')
 				return False
 
 		new_user = {
@@ -26,7 +25,7 @@ class User(object):
 		for user in self.users:
 			if user["email"] == _user["email"]:
 				if user["password"] == _user["password"]:
-					session["id"] = user["id"]
+					# session["id"] = user["id"]
 					return {"success":True, "pwd":True}
 				return {"success":True, "pwd":False}
 

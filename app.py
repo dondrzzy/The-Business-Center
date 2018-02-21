@@ -15,9 +15,6 @@ review = Review()
 app = Flask(__name__)
 
 
-
-
-
 app.config['SECRET_KEY'] = 'secret'
 
 # users = [{"id":1, "name":"Sibo", "email":"test@gmail.com", "password":"1234"}]
@@ -25,7 +22,7 @@ app.config['SECRET_KEY'] = 'secret'
 
 @app.route('/', methods=["GET"])
 def index():	
-	return jsonify({"user":"Hello there"})
+	return jsonify({"try":"/api/auth/register"})
 
 @app.route('/api/auth/register', methods=['POST'])
 def register():
