@@ -4,11 +4,12 @@ python:
 cache: pip3
 install:
   - pip3 install -r requirements.txt
-before_install:
   - pip3 install pytest pytest-cov
   - pip3 install coveralls
 script:
+  - python setup.py install
   - pytest test
   - pytest ttd
+  - coverage run --source=test setup.py test
 after_success:
   - coveralls
