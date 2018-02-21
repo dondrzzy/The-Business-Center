@@ -5,5 +5,5 @@ cache: pip3
 install:
   - pip3 install -r requirements.txt
 script:
-  - pytest test__my_app.py
+  - pytest test_my_app.py
   - python test_my_app.py
