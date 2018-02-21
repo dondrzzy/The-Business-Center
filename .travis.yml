@@ -8,6 +8,7 @@ before_install:
   - pip3 install pytest pytest-cov
   - pip3 install coveralls
 script:
-  - pytest test_my_app.py
+  - pytest test
+  - pytest ttd
 after_success:
   - coveralls

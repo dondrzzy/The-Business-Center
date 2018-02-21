@@ -14,7 +14,7 @@ app.config['SECRET_KEY'] = 'secret'
 
 @app.route('/', methods=["GET"])
 def index():
-	return jsonify({"try":"/api/auth/register"})
+	return jsonify({"try":"/api/v1/auth/register"})
 
 @app.route('/api/auth/register', methods=['POST'])
 def register():
