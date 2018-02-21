@@ -1,27 +1,19 @@
-from flask import Flask, request, jsonify, make_response, render_template, url_for, session
-import requests
-import json
-import os
+from flask import Flask, request, jsonify, render_template, url_for, session
 from models.user import User
 from models.business import Business
 from models.review import Review
 
-user = User()
-business = Business()
-review = Review()
-
-
+User = User()
+Business = Business()
+Review = Review()
 
 app = Flask(__name__)
 
 
 app.config['SECRET_KEY'] = 'secret'
 
-# users = [{"id":1, "name":"Sibo", "email":"test@gmail.com", "password":"1234"}]
-
-
 @app.route('/', methods=["GET"])
-def index():	
+def index():
 	return jsonify({"try":"/api/auth/register"})
 
 @app.route('/api/auth/register', methods=['POST'])
@@ -43,8 +35,9 @@ def register():
 		"email" : data["email"],
 		"password" : data["password"]
 	}
-	if user.register(user_obj):
-		return jsonify({"success":True, "msg":"User Registered Successfully", "users":user.getUsers()})
+
+	if User.register(user_obj):
+		return jsonify({"success":True, "msg":"User Registered Successfully", "users":User.getUsers()})
 
 	return jsonify({"success":False, "msg":"email is taken"})
 
@@ -66,7 +59,7 @@ def login():
 	if "email" in session and session["email"] == data["email"]:
 		return jsonify({"success":False, "msg":"Already logged in. Redirecting..."})
 
-	res = user.login(user_obj)
+	res = User.login(user_obj)
 	pprint(res)
 	if res["success"] and res["pwd"]:
 		session['logged_in'] = True
@@ -82,7 +75,7 @@ def logout():
 	return jsonify({"success":True, "msg":"You are logged out"})
 
 @app.route('/api/auth/reset-password', methods=['POST'])
-def resetPassword():
+def reset_password():
 	data = request.get_json()
 	if "email" not in data:
 		return jsonify({"success":False, "msg":"email is required"})
@@ -97,12 +90,12 @@ def resetPassword():
 		"password" : data["password"]
 	}
 
-	if user.resetPassword(user_obj):
+	if User.resetPassword(user_obj):
 		return jsonify({"success":True, "msg":"Password reset successfully"})
 	return jsonify({"success":False, "msg":"User not found"})
 
 @app.route('/api/businesses', methods=['POST'])
-def registerBusiness():
+def register_business():
 	if "id" not in session:
 		return jsonify({"success":False, "msg":"Access denied! Login"})
 	data = request.get_json()
@@ -122,23 +115,23 @@ def registerBusiness():
 		"user_id" : session["id"]
 	}
 
-	business.registerBusiness(b_obj)
-	return jsonify({"success":True, "msg":"Business Created", "businesses":business.getAllBusinesses()})
+	Business.registerBusiness(b_obj)
+	return jsonify({"success":True, "msg":"Business Created", "businesses":Business.getAllBusinesses()})
 
 
 @app.route('/api/businesses')
-def getAllBusinesses():
-	return jsonify({"success":True, "businesses":business.getAllBusinesses()})
+def get_all_businesses():
+	return jsonify({"success":True, "businesses":Business.getAllBusinesses()})
 
 @app.route('/api/businesses/<businessId>')
-def getBusiness(businessId):
-	res = business.getBusiness(int(businessId))
+def get_business(businessId):
+	res = Business.getBusiness(int(businessId))
 	if res["found"]:
 		return jsonify({"success":True, "businesses":res["business"]})
 	return jsonify({"success":False, "msg":"Business with id "+businessId+" not found!"})
 # incomplete
 @app.route('/api/businesses/<businessId>', methods=['PUT'])
-def updateBusiness(businessId):
+def update_business(businessId):
 	data = request.get_json()
 	b_obj = {}
 	if "name" not in data and "category" not in data and "location" not in data:
@@ -152,21 +145,21 @@ def updateBusiness(businessId):
 		b_obj["location"] = data["location"]
 
 
-	if business.updateBusiness(b_obj, int(businessId)):
-		return jsonify({"success":True, "msg":"Business updated successfully", "businesses":business.getAllBusinesses()})
-	return jsonify({"succes":False, "businesses":business.getAllBusinesses(), "msg":"Business with id "+ businessId+" not found"})
+	if Business.updateBusiness(b_obj, int(businessId)):
+		return jsonify({"success":True, "msg":"Business updated successfully", "businesses":Business.getAllBusinesses()})
+	return jsonify({"succes":False, "businesses":Business.getAllBusinesses(), "msg":"Business with id "+ businessId+" not found"})
 
 
 @app.route('/api/businesses/<businessId>', methods=['DELETE'])
-def deleteBusiness(businessId):
-	if business.deleteBusiness(int(businessId)):
-		return jsonify({"success":True, "message":"Business deleted successfully", "businesses":business.getAllBusinesses()})
+def delete_business(businessId):
+	if Business.deleteBusiness(int(businessId)):
+		return jsonify({"success":True, "message":"Business deleted successfully", "businesses":Business.getAllBusinesses()})
 	return jsonify({"success":False, "message":"Business with id "+businessId+ " not found"})
 
 
 # Reviews
 @app.route('/api/businesses/<businessId>/reviews', methods=['POST'])
-def addReview(businessId):
+def add_review(businessId):
 	if "id" not in session:
 		return jsonify({"success":False, "msg":"Access denied! Login"})
 	
@@ -178,13 +171,13 @@ def addReview(businessId):
 		"text" : data["text"]
 	}
 
-	if review.addReview(rev, int(businessId)):
-		return jsonify({"success":True, "msg":"Review successfully added", "reviews":review.getAllReviews()})
+	if Review.addReview(rev, int(businessId)):
+		return jsonify({"success":True, "msg":"Review successfully added", "reviews":Review.getAllReviews()})
 	return jsonify({"success":False, "msg":"Business with id "+businessId+" not found"})
 
 @app.route('/api/businesses/<businessId>/review')
-def getBusinessReviews(businessId):
-	return jsonify({"success":True, "reviews":review.getBusinessReviews(int(businessId))})
+def get_business_eviews(businessId):
+	return jsonify({"success":True, "reviews":Review.getBusinessReviews(int(businessId))})
 
 if(__name__) == '__main__':
 	app.run(debug=True)
