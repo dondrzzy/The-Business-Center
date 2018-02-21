@@ -1,7 +1,4 @@
 from flask import Flask, request, jsonify, make_response, render_template, url_for, session
-import requests
-import json
-import os
 from models.user import User
 from models.business import Business
 from models.review import Review
@@ -27,7 +24,7 @@ app.config['SECRET_KEY'] = 'secret'
 def index():	
 	return jsonify({"user":"Hello there"})
 
-@app.route('/api/auth/register', methods=['POST'])
+@app.route('/api/v1/auth/register', methods=['POST'])
 def register():
 	data = request.get_json()
 	if "name" not in data:
@@ -51,7 +48,7 @@ def register():
 
 	return jsonify({"success":False, "msg":"email is taken"})
 
-@app.route('/api/auth/login', methods=['POST'])
+@app.route('/api/v1/auth/login', methods=['POST'])
 def login():
 
 	data = request.get_json()
@@ -78,12 +75,12 @@ def login():
 		return jsonify({"success":False, "msg":"email and password mismatch"})
 	return jsonify({"success":False, "msg":"User Not Found"})
 
-@app.route('/api/auth/logout', methods=['POST'])
+@app.route('/api/v1/auth/logout', methods=['POST'])
 def logout():
 	session.clear()
 	return jsonify({"success":True, "msg":"You are logged out"})
 
-@app.route('/api/auth/reset-password', methods=['POST'])
+@app.route('/api/v1/auth/reset-password', methods=['POST'])
 def resetPassword():
 	data = request.get_json()
 	if "email" not in data:
@@ -103,7 +100,7 @@ def resetPassword():
 		return jsonify({"success":True, "msg":"Password reset successfully"})
 	return jsonify({"success":False, "msg":"User not found"})
 
-@app.route('/api/businesses', methods=['POST'])
+@app.route('/api/v1/businesses', methods=['POST'])
 def registerBusiness():
 	if "id" not in session:
 		return jsonify({"success":False, "msg":"Access denied! Login"})
@@ -128,18 +125,18 @@ def registerBusiness():
 	return jsonify({"success":True, "msg":"Business Created", "businesses":business.getAllBusinesses()})
 
 
-@app.route('/api/businesses')
+@app.route('/api/v1/businesses')
 def getAllBusinesses():
 	return jsonify({"success":True, "businesses":business.getAllBusinesses()})
 
-@app.route('/api/businesses/<businessId>')
+@app.route('/api/v1/businesses/<businessId>')
 def getBusiness(businessId):
 	res = business.getBusiness(int(businessId))
 	if res["found"]:
 		return jsonify({"success":True, "businesses":res["business"]})
 	return jsonify({"success":False, "msg":"Business with id "+businessId+" not found!"})
 # incomplete
-@app.route('/api/businesses/<businessId>', methods=['PUT'])
+@app.route('/api/v1/businesses/<businessId>', methods=['PUT'])
 def updateBusiness(businessId):
 	data = request.get_json()
 	b_obj = {}
@@ -159,7 +156,7 @@ def updateBusiness(businessId):
 	return jsonify({"succes":False, "businesses":business.getAllBusinesses(), "msg":"Business with id "+ businessId+" not found"})
 
 
-@app.route('/api/businesses/<businessId>', methods=['DELETE'])
+@app.route('/api/v1/businesses/<businessId>', methods=['DELETE'])
 def deleteBusiness(businessId):
 	if business.deleteBusiness(int(businessId)):
 		return jsonify({"success":True, "message":"Business deleted successfully", "businesses":business.getAllBusinesses()})
@@ -167,7 +164,7 @@ def deleteBusiness(businessId):
 
 
 # Reviews
-@app.route('/api/businesses/<businessId>/reviews', methods=['POST'])
+@app.route('/api/v1/businesses/<businessId>/reviews', methods=['POST'])
 def addReview(businessId):
 	if "id" not in session:
 		return jsonify({"success":False, "msg":"Access denied! Login"})
@@ -184,7 +181,7 @@ def addReview(businessId):
 		return jsonify({"success":True, "msg":"Review successfully added", "reviews":review.getAllReviews()})
 	return jsonify({"success":False, "msg":"Business with id "+businessId+" not found"})
 
-@app.route('/api/businesses/<businessId>/review')
+@app.route('/api/v1/businesses/<businessId>/review')
 def getBusinessReviews(businessId):
 	return jsonify({"success":True, "reviews":review.getBusinessReviews(int(businessId))})
 
