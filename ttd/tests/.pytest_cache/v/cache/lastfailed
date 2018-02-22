@@ -1,4 +1,0 @@
-{
-  "test_calc.py::test_calculator::test_add_fails_if_not_numbers": true,
-  "test_calc.py::test_calculator::test_add_fails_if_not_numberss": true
-}
