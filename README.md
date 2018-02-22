@@ -18,7 +18,8 @@ The jwt tokn is valid for exactly 60 seconds and you will be required to login a
 The end points/Routes
 
 `/api/auth/register` - to register 
-```{
+```
+{
   "name":"xxx",
   "email":"x@gmail.com",
   "password":"1234"
@@ -49,7 +50,7 @@ The end points/Routes
 ```
 
 
-GET `/api/v1/businesses` - to get all businesses
+GET `/api/businesses` - to get all businesses
 
 POST `/api/businesses` - to create a business. APPI is interractive and will let you know of the missing fields
 
