@@ -1,5 +1,0 @@
-{
-  "test/test_my_app.py::TestApp::test_is_member": true,
-  "test_app.py": true,
-  "test_my_app.py::TestApp::test_balance": true
-}
