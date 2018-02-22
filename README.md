@@ -3,7 +3,7 @@
 # The-Business-Center
 The one stop center to boost your business
 
-THE API 
+#THE API 
 The API enables you to create a user account, login with jwt authentication, create a business account after successfully logging in. 
 Routes for getting all businesses arent protected, anyone can fetch all businesses but must login to post reviews about a business.
 Only creator of businesses can update and delete them.
