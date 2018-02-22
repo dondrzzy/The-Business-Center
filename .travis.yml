@@ -13,6 +13,6 @@ before_script:
   - psql -c "CREATE DATABASE tbc_db;" -U postgres
   - psql -c "CREATE USER tbc_db WITH PASSWORD '12345678';" -U postgres
 script:
-  - pytest test
+  - pytest --cov=test/
 after_success:
   - coveralls
