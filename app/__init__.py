@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 #Configuration Parameters for the app
 app.config['SECRET_KEY'] = 'secret'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:12345678@localhost/tbc_db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:engneerdon@localhost/tbc_db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']  = False
 db = SQLAlchemy(app)
 

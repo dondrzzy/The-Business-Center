@@ -11,10 +11,18 @@ UserController = UserController()
 BusinessController = BusinessController()
 ReviewController = ReviewController()
 
-# routes
+
+# Front end routes
+
 @app.route('/', methods=["GET"])
 def index():
-    return jsonify({"try":"/api/v1/auth/register"})
+    return render_template('index.html')
+
+@app.route('/login')
+def load_login():
+    return render_template('login.html')
+
+# API routes routes
 
 @app.route('/api/v1/auth/register', methods=['POST'])
 def register():
