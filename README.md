@@ -53,7 +53,7 @@ GET `/api/v1/businesses` - to get all businesses
 
 POST `/api/businesses` - to create a business. APPI is interractive and will let you know of the missing fields
 
-PUT `api/bussinesses/<businessId>` to update a business. Must be loggged in
+PUT `/api/bussinesses/<businessId>` to update a business. Must be loggged in
   
 DELETE `/api/businesses/<businessId>` to delete a business. Must be loggged in
   
