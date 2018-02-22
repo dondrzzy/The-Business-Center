@@ -4,3 +4,9 @@
 /ttd/
 /UML
 /__pycache__/
+**/__pycache/
+**/__pycache/**
+/__pycache__/
+.py.test_cache
+
+
