@@ -31,11 +31,11 @@ PUT /api/v1/bussinesses/<businessId> to update a business. Must be loggged in
   
 DELETE /api/v1/businesses/<businessId> to delete a business. Must be loggged in
   
-GET  /api/businesses/<businessId> - to get a specific business
+GET  /api/v1/businesses/<businessId> - to get a specific business
   
-POST  /api/businesses/<businessId>/reviews - to post reviews to a business - Must be logged in to track user
+POST  /api/v1/businesses/<businessId>/reviews - to post reviews to a business - Must be logged in to track user
   
-GET  /api/businesses/<businessId>/reviews - to get all business reviews
+GET  /api/v1/businesses/<businessId>/reviews - to get all business reviews
   
   
 
