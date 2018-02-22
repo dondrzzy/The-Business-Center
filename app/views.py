@@ -13,14 +13,49 @@ ReviewController = ReviewController()
 
 
 # Front end routes
-
+# splash page
 @app.route('/', methods=["GET"])
 def index():
     return render_template('index.html')
 
+# register route
+@app.route('/register')
+def load_register():
+    return render_template('register_user.html')
+
 @app.route('/login')
 def load_login():
     return render_template('login.html')
+
+@app.route('/reset-password')
+def load_reset_password():
+    return render_template('/reset-password')
+# \register business
+@app.route('/register_business')
+def load_register_business():
+    return render_template('/register_business.html')
+
+# load my  businesses
+@app.route('/dashboard')
+def load_dashboard():
+    return render_template('/dashboard.html')
+
+# get all businesses
+@app.route('/businesses')
+def load_businesses():
+    return render_template('/businesses.html')
+
+# get single business
+@app.route('/businesses/<businessId>')
+def load_business(businessId):
+    return render_template('business.html', id = businessId)
+
+
+# edit a business--- ajax
+
+# search for businesses
+
+
 
 # API routes routes
 
