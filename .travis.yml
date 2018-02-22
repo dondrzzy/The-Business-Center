@@ -8,6 +8,5 @@ install:
   - pip3 install coveralls
 script:
   - pytest test
-  - pytest ttd 
 after_success:
   - coveralls
