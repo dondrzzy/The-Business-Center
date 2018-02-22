@@ -73,7 +73,7 @@ Run the following commands in your CMD
 git init
 git clone https://github.com/dondrzzy/The-Business-Center.git
 cd The-Business-Center
-pip3 install pip install -r requirements.txt
+pip3 install -r requirements.txt
 python run.py
 Go to the browser and route the specific url you get on running python run.py
 It should be something like http://127.0.0.1:5000
