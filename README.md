@@ -35,6 +35,9 @@ The end points/Routes
 }
 ```
 
+`/api/auth/logout` - to logout
+
+
 `/api/auth/reset-password` - to reset password
 
 ```
