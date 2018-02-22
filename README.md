@@ -28,7 +28,8 @@ The end points/Routes
 
 
 `/api/auth/login` - to login
-```{
+```
+{
   "email":"x@gmail.com",
   "password":"1234"
 }
@@ -36,7 +37,8 @@ The end points/Routes
 
 `/api/auth/reset-password` - to reset password
 
-```{
+```
+{
   "email":"x@gmail.com",
   "password":"1234"
   "password_c":"1234"
