@@ -65,7 +65,20 @@ POST  `/api/v1/businesses/<businessId>/reviews` - to post reviews to a business 
 GET  `/api/v1/businesses/<businessId>/reviews` - to get all business reviews
   
   
+# USAGE
+To run the application...
 
+Run the following commands in your CMD
+```
+git init
+git clone https://github.com/dondrzzy/The-Business-Center.git
+cd The-Business-Center
+pip3 install pip install -r requirements.txt
+python run.py
+Go to the browser and route the specific url you get on running python run.py
+It should be something like http://127.0.0.1:5000
+
+```
 
 
 
