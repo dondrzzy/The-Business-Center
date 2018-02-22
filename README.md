@@ -17,7 +17,7 @@ The jwt tokn is valid for exactly 60 seconds and you will be required to login a
 
 The end points/Routes
 
-`/api/auth/register` - to register 
+`/api/v1/auth/register` - to register 
 ```
 {
   "name":"xxx",
@@ -28,7 +28,7 @@ The end points/Routes
 ``` 
 
 
-`/api/auth/login` - to login
+`/api/v1/auth/login` - to login
 ```
 {
   "email":"x@gmail.com",
@@ -36,10 +36,10 @@ The end points/Routes
 }
 ```
 
-`/api/auth/logout` - to logout
+`/api/v1/auth/logout` - to logout
 
 
-`/api/auth/reset-password` - to reset password
+`/api/v1/auth/reset-password` - to reset password
 
 ```
 {
@@ -50,19 +50,19 @@ The end points/Routes
 ```
 
 
-GET `/api/businesses` - to get all businesses
+GET `/api/v1/businesses` - to get all businesses
 
-POST `/api/businesses` - to create a business. APPI is interractive and will let you know of the missing fields
+POST `/api/v1/businesses` - to create a business. APPI is interractive and will let you know of the missing fields
 
-PUT `/api/bussinesses/<businessId>` to update a business. Must be loggged in
+PUT `/api/v1/bussinesses/<businessId>` to update a business. Must be loggged in
   
-DELETE `/api/businesses/<businessId>` to delete a business. Must be loggged in
+DELETE `/api/v1/businesses/<businessId>` to delete a business. Must be loggged in
   
-GET  `/api/businesses/<businessId>` - to get a specific business
+GET  `/api/v1/businesses/<businessId>` - to get a specific business
   
-POST  `/api/businesses/<businessId>/reviews` - to post reviews to a business - Must be logged in to track user
+POST  `/api/v1/businesses/<businessId>/reviews` - to post reviews to a business - Must be logged in to track user
   
-GET  `/api/businesses/<businessId>/reviews` - to get all business reviews
+GET  `/api/v1/businesses/<businessId>/reviews` - to get all business reviews
   
   
 
