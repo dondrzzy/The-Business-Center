@@ -23,13 +23,16 @@ The end points/Routes
   "email":"x@gmail.com",
   "password":"1234"
   "password_c":"1234"
-}```
+}
+``` 
+
 
 `/api/auth/login` - to login
 ```{
   "email":"x@gmail.com",
   "password":"1234"
-}```
+}
+```
 
 `/api/auth/reset-password` - to reset password
 
@@ -37,7 +40,8 @@ The end points/Routes
   "email":"x@gmail.com",
   "password":"1234"
   "password_c":"1234"
-}```
+}
+```
 
 
 GET `/api/v1/businesses` - to get all businesses
