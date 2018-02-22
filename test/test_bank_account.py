@@ -21,3 +21,6 @@ class AccountBalanceTestCase(unittest.TestCase):
 
 	def test_subclass(self):
 		self.assertTrue(issubclass(MinimumBalanceAccount, BankAccount), msg='Not Subclass')
+
+if __name__ == '__main__':
+    unittest.main()
