@@ -4,6 +4,7 @@
 The one stop center to boost your business
 
 
+
 # THE API
 
 These API enf points are yet to be intergrated into the API currently hosted with heroku [link](https://the-business-center.herokuapp.com)
@@ -65,6 +66,7 @@ POST  `/api/v1/businesses/<businessId>/reviews` - to post reviews to a business 
 GET  `/api/v1/businesses/<businessId>/reviews` - to get all business reviews
   
   
+
 
 
 
