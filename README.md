@@ -3,7 +3,10 @@
 # The-Business-Center
 The one stop center to boost your business
 
+
 # THE API
+
+These API enf points are yet to be intergrated into the API currently hosted with heroku [link](https://the-business-center.herokuapp.com)
 
 
 The API enables you to create a user account, login with jwt authentication, create a business account after successfully logging in. 
@@ -12,7 +15,7 @@ Only creator of businesses can update and delete them.
 The jwt tokn is valid for exactly 60 seconds and you will be required to login again
 
 
-#The end points/Routes
+The end points/Routes
 
 /api/v1/auth/register - to register 
 
