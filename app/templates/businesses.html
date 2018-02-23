@@ -6,31 +6,32 @@
         <div class="col-md-12">
             <div class="jumbotron">
                 <h4>Business {{ id }}</h4>
-                <p>We at Business {{ id }} are tailored to suit your needs. Filter through business by location or category</p>                
+                <p>We at Business  {{ id }} limit {{ limit }} are tailored to suit your needs. Filter through business by location or category</p>                
                 <div class="row">
                     <div class="col-md-6 ">
-                        <form action="" metho="post">
+                        <form action="" metho="get">
                             <div class="form-group">
-                                <label for="searchstr" class="control-label">Search:</label>
-                                <input type="text" name="searchstr" class="form-control" value="" placeholder="*Type company name...">
+                                <label for="searchstr" class="control-label">Search:{{ searchStr }}</label>
+                                <input type="text" name="q" class="form-control" value="" placeholder="*Type company name...">
                             </div>
+                            
+                            <button class="btn btn-primary btn-block btn-md">SEARCH</button>
+                        </form>
+                    </div>
+                    <div class="col-md-6 ">
+                        <form action="" metho="get">
                             <div class="form-group">
                                 <label class="control-label" for=""><small>Filter By Cartegory:</small></label>
                                 <select name="cat" id="" class="form-control">
                                     <option selected></option>
-                                    <option value=1"">Consultancy</option>
-                                    <option value=1"">Engineering</option>
-                                    <option value=1"">IT</option>   
+                                    <option value="Consultancy">Consultancy</option>
+                                    <option value="Engineering">Engineering</option>
+                                    <option value="IT">IT</option>   
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label class="control-label" for=""><small>Filter By Location:</small></label>
-                                <select name="location" id="" class="form-control">
-                                    <option selected></option>
-                                    <option value=1"">Kampala</option>
-                                    <option value=1"">Mbarara</option>
-                                    <option value=1"">Kisoro</option>   
-                                </select>
+                                <label for="location" class="control-label">Filter By Location:</label>
+                                <input type="text" name="loc" class="form-control" value="" placeholder="*Location...">
                             </div>
                             <button class="btn btn-primary btn-block btn-md">SEARCH</button>
                         </form>

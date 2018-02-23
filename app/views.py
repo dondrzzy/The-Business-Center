@@ -2,6 +2,7 @@ from flask import request, jsonify, render_template, url_for, session
 import pprint
 from functools import wraps
 import jwt
+import requests
 from app import app
 from app.controllers.user_controller import UserController
 from app.controllers.business_controller import BusinessController
@@ -51,9 +52,6 @@ def load_business(businessId):
     return render_template('business.html', id = businessId)
 
 
-# edit a business--- ajax
-
-# search for businesses
 
 
 
