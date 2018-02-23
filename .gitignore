@@ -1,0 +1,14 @@
+/static/
+/templates/
+/Designs/
+/ttd/
+/UML
+/__pycache__/
+**/__pycache/
+**/__pycache/**
+/__pycache__/
+/app/__pycache__/
+/app/controllers/__pycache__/
+/app/models/__pycache__/
+/app/test/__pycache__/
+

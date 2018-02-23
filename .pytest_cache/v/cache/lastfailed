@@ -1,0 +1,7 @@
+{
+  "app/test/test_business_model.py::TestUserController::test_register_business": true,
+  "app/test/test_reviews_controller.py::TestBusinessController::test_review_missing_business": true,
+  "app/test/test_user_controller.py::TestUser::test_user_register_email_exists": true,
+  "app/test/test_user_controller.py::TestUserController::test_user_login_success": true,
+  "app/test/test_user_controller.py::TestUserController::test_user_no_users": true
+}
