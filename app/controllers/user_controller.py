@@ -12,6 +12,7 @@ class UserController(object):
 
     def register_user(self, data):
         """register_user"""
+
         if "name" not in data:
             return {"success":False, "msg":"name is required"}
         elif "email" not in data:
@@ -44,6 +45,7 @@ class UserController(object):
             "password" : data["password"]
         }
 
+
         # check if already logged in user
         if "email" in session and session["email"] == data["email"]:
             return {"success":False, "msg":"Already logged in. Redirecting..."}
@@ -64,6 +66,7 @@ class UserController(object):
 
         user_obj = {
             "email" : data["email"],
+
             "password" : (data["password"])
         }
 

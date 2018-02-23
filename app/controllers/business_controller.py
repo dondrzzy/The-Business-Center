@@ -11,6 +11,7 @@ class BusinessController():
 
     def register_business(self, business):
         """register_business"""
+
         if "name" not in business:
             return {"success":False, "msg":"Business name ('name') is required"}
         elif "category" not in business:

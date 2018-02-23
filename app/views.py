@@ -4,16 +4,15 @@ from flask import request, jsonify, session
 from app import app
 
 # import controllers
+
 from app.controllers.user_controller import UserController
 from app.controllers.business_controller import BusinessController
 from app.controllers.review_controller import ReviewController
-
 
 # instantiate controllers
 UC = UserController()
 BC = BusinessController()
 RC = ReviewController()
-
 
 
 # routes

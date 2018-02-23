@@ -3,9 +3,9 @@ from flask import session
 
 class ReviewModel(object):
     """docstring for Revuew"""
+
     def __init__(self, reviews=[]):
         self.reviews = reviews
-
 
     def add_review(self, rev, bid):
         """docstring for add_review"""
