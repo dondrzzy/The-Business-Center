@@ -4,10 +4,9 @@
 The one stop center to boost your business
 
 
-
 # THE API
 
-These API enf points are yet to be intergrated into the API currently hosted with heroku [link](https://the-business-center.herokuapp.com)
+These API application is live hosted with heroku [link](https://the-business-center.herokuapp.com)
 
 
 The API enables you to create a user account, login with jwt authentication, create a business account after successfully logging in. 
@@ -65,8 +64,20 @@ POST  `/api/v1/businesses/<businessId>/reviews` - to post reviews to a business 
   
 GET  `/api/v1/businesses/<businessId>/reviews` - to get all business reviews
   
-  
 
+# USAGE
+To run the application...
+
+Run the following commands in your CMD
+```
+git init
+git clone https://github.com/dondrzzy/The-Business-Center.git
+cd The-Business-Center
+pip3 install -r requirements.txt
+python run.py
+Go to the browser and route the specific url you get on running python run.py
+It should be something like http://127.0.0.1:5000
+```
 
 
 

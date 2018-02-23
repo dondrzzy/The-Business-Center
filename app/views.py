@@ -1,121 +1,121 @@
-from flask import request, jsonify, render_template, url_for, session
-import pprint
-from functools import wraps
-import jwt
+""" routes file """
+from flask import request, jsonify, session
+
 from app import app
+
+# import controllers
+
 from app.controllers.user_controller import UserController
 from app.controllers.business_controller import BusinessController
 from app.controllers.review_controller import ReviewController
 
-UserController = UserController()
-BusinessController = BusinessController()
-ReviewController = ReviewController()
+# instantiate controllers
+UC = UserController()
+BC = BusinessController()
+RC = ReviewController()
+
 
 # routes
 @app.route('/', methods=["GET"])
 def index():
-    return jsonify({"try":"/api/v1/auth/register"})
+    """defualt route"""
+    return jsonify({"user":"Hello there"})
 
+# register user
 @app.route('/api/v1/auth/register', methods=['POST'])
-def register():
-
+def register_user():
+    """registers user"""
     data = request.get_json()
 
-    res = UserController.register_user(data)
-    
-    return jsonify(res)
+    # pass data to the user controller
+    return jsonify(UC.register_user(data))
 
 
+# login user
 @app.route('/api/v1/auth/login', methods=['POST'])
-def login():
-
+def login_user():
+    """logs in user"""
     data = request.get_json()
 
-    res = UserController.login_user(data)
+    # submit data to user controller
+    return jsonify(UC.login_user(data))
 
-    return jsonify(res)
 
-def is_logged_in(f):
-    @wraps(f)
-    def decorated(*args, **kwargs):
-        token = None
-
-        if 'x-access-token' in request.headers:
-            token = request.headers['x-access-token']
-
-        if not token:
-            return jsonify({'success':False, 'token':False, 'message':'Token is missing'}), 401
-
-        try:
-            data = jwt.decode(token, app.config['SECRET_KEY'])
-            current_user = data["uid"]
-        except:
-            return jsonify({'success':False, 'token':False, 'message':'Token is invalid'}), 401
-        return f(current_user, *args, **kwargs)
-
-    return decorated
-
+# logout user
 @app.route('/api/v1/auth/logout', methods=['POST'])
 def logout():
+    """logs out user."""
     session.clear()
     return jsonify({"success":True, "msg":"You are logged out"})
 
+# reset user password
 @app.route('/api/v1/auth/reset-password', methods=['POST'])
 def reset_password():
+    """resets password"""
     data = request.get_json()
-    return jsonify(UserController.reset_password(data))
 
-# register a business
+    # send data to the user controller
+    return jsonify(UC.reset_password(data))
+
+
+# Business routes
 @app.route('/api/v1/businesses', methods=['POST'])
-@is_logged_in
-def register_business(current_user):
-    
-    business = request.get_json()
+def register_business():
+    """register business"""
+    # user must be signed in
+    if "id" not in session:
+        return jsonify({"success":False, "msg":"Access denied! Login"})
+    data = request.get_json()
 
-    res = BusinessController.register_business(int(current_user), business)
-
-    return jsonify(res)
+    return jsonify(BC.register_business(data))
 
 
-# get all businesses
 @app.route('/api/v1/businesses')
 def get_all_businesses():
-    return jsonify({"success":True, "businesses":BusinessController.get_all_businesses()["businesses"]})
+    """get all businesses."""
+    return jsonify(BC.get_all_businesses())
 
-# get single business businesses
+
+# get a specific business
 @app.route('/api/v1/businesses/<businessId>')
 def get_business(businessId):
-    return jsonify(BusinessController.get_business(businessId))
+    """get business"""
+    return jsonify(BC.get_business(businessId))
 
-# incomplete
+# update business
 @app.route('/api/v1/businesses/<businessId>', methods=['PUT'])
-@is_logged_in
-def update_business(current_user, businessId):
+def update_business(businessId):
+    """Update Business"""
+    if "id" not in session:
+        return jsonify({"success":False, "msg":"Access denied! Login"})
+
     data = request.get_json()
 
-    return jsonify(BusinessController.update_business(current_user, businessId, data))
-    
+    return jsonify(BC.update_business(businessId, data))
 
-
+# delete business
 @app.route('/api/v1/businesses/<businessId>', methods=['DELETE'])
-@is_logged_in
-def delete_business(current_user, businessId):
-    return jsonify(BusinessController.delete_business(businessId, current_user))
-    
+def delete_business(businessId):
+    """delete business"""
+    if "id" not in session:
+        return jsonify({"success":False, "msg":"Access denied! Login"})
+
+    return jsonify(BC.delete_business(businessId))
 
 
-
-
-# Reviews routes
+# Reviews
 @app.route('/api/v1/businesses/<businessId>/reviews', methods=['POST'])
-@is_logged_in
-def add_review(current_user, businessId):
-    
-    data = request.get_json()
-    return jsonify(ReviewController.add_review(data, businessId, current_user))
+def add_review(businessId):
+    """add review to business"""
+    if "id" not in session:
+        return jsonify({"success":False, "msg":"Access denied! Login"})
 
-# get specific review
+    data = request.get_json()
+
+    return jsonify(RC.add_review(data, businessId))
+
+
 @app.route('/api/v1/businesses/<businessId>/reviews')
 def get_business_reviews(businessId):
-    return jsonify(ReviewController.get_business_reviews(businessId))
-
+    """get business review"""
+    return jsonify(RC.get_business_reviews(businessId))

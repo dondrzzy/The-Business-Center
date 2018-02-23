@@ -1,30 +1,33 @@
-from app import db
-from app.schemas import Review
-from app.controllers.user_controller import UserController
-
-UserController = UserController()
+"""docstring for Review Model"""
+from flask import session
 
 class ReviewModel(object):
-    
+    """docstring for Revuew"""
+
     def __init__(self, reviews=[]):
         self.reviews = reviews
 
+    def add_review(self, rev, bid):
+        """docstring for add_review"""
+        new_rev = {
+            "id" : len(self.reviews)+1,
+            "businessId" : int(bid),
+            "userId" : session["id"],
+            "text" : rev["text"]
+        }
+        self.reviews.append(new_rev)
+        return {"success":True, "msg":"Review created successfully", "reviews":self.reviews}
 
-    def add_review(self, rev, bid, uid):    
-        db.session.add(Review(rev["text"], bid, uid))
-        db.session.commit()
+    def get_all_reviews(self):
+        """docstring for getAllReviews"""
+        return self.reviews
 
     def get_business_reviews(self, bid):
-        reviews = Review.query.filter_by(bid=bid).all()
-        if not reviews:
-            return {"success":False, "msg":"No Business Reviews"}
+        """docstring for get_business_reviews"""
         output = []
-        for r in reviews:
-            r_obj = {
-                'id':r.id,
-                'text':r.text,
-                'user':UserController.get_user(r.uid)["user"]
-            }
-            output.append(r_obj) 
+        for review in self.reviews:
+            if review["businessId"] == int(bid):
+                output.append(review)
+        # if len(output) > 0:
         return {"success":True, "reviews":output}
-
+        # return {"success":False, "msg":"No reviews associated with businessId"+bid}

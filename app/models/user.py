@@ -1,63 +1,52 @@
-from app import db
-from app.schemas import User
-
+"""docstring for User Model"""
+from flask import session
 
 class UserModel(object):
     """docstring for User"""
-    def __init__(self, users = []):
+    def __init__(self, users=[{"id":1, "name":"Sibo", "email":"test@gmail.com", "password":"1234"}]):
         self.users = users
 
+    # add user to the users array
+    def register_user(self, _user):
+        """docstring for register_user method"""
+        for user in self.users:
+            if _user["email"] == user["email"]:
+                return {"success":False, "msg":"Email already exists,try another one."}
 
-    def register(self, user):
-        new_user = User(user["name"], user["email"], user["password"])
-        db.session.add(new_user)
-        db.session.commit()
-        
-    def get_user(self, uid):
-        user = User.query.filter_by(id=uid).first()
-        member = {
-            'id':user.id,
-            'name':user.name,
-            'email':user.email
+        new_user = {
+            "id" : len(self.users)+1,
+            "name" : _user["name"],
+            "email" : _user["email"],
+            "password" : _user["password"]
         }
-        return {"success":True, "user":member}
+        self.users.append(new_user)
+        return {"success":True, "msg":"Account created successfully", "users":self.users}
 
-    def login(self, _user):
+    # Add user to session
+    def login_user(self, _user):
+        """docstring for login_user method"""
         for user in self.users:
             if user["email"] == _user["email"]:
                 if user["password"] == _user["password"]:
-                    # session["id"] = user["id"]
-                    return {"success":True, "pwd":True}
-                return {"success":True, "pwd":False}
+                    session["id"] = user["id"]
+                    session['logged_in'] = True
+                    session['email'] = user['email']
+                    return {"success":True, "msg":"User logged in successfully"}
+                return {"success":True, "msg":"Email and Password mismatch"}
+        return {"success":False, "msg":"User not found, Please register"}
 
-        return {"success":False, "pwd":False}
+    def get_users(self):
+        """docstring for get_users method"""
+        return self.users
 
-    def email_exists(self, email):
-        user = User.query.filter_by(email=email).first()
-        if not user:
-            return{"success":False}
-        return {"success":True}
-        
-
-    def is_member(self, _user):
-        user = User.query.filter_by(email=_user["email"]).first()
-        if not user:
-            return {"success":False}
-
-        member = {
-            'id':user.id,
-            'email':user.email,
-            'password':user.password
-        }
-        return {"success":True, "user":member}
+    def no_users(self):
+        """docstring for no_users method"""
+        return len(self.users)
 
     def reset_password(self, _user):
-        user = User.query.filter_by(email=_user["email"]).first()
-        if not user:
-            return {"success":False, "msg":"User not  found"}
-        user.password = _user["password"]
-        db.session.commit()
-        return {"success":True, "msg":"Password reset successfully"}
-
-
-
+        """docstring for reset_password method"""
+        for user in self.users:
+            if _user["email"] == user["email"]:
+                user["password"] = _user["password"]
+                return {"success":True, "msg":"Password reset successfully"}
+        return {"success":False, "msg":"User not found"}

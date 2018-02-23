@@ -1,17 +1,18 @@
-from passlib.hash import sha256_crypt
+""" User Class"""
+from flask import session
 from app.models.user import UserModel
-import pprint
-import jwt
-import datetime
-from app import app
-UserModel = UserModel()
+
+# instatiate model
+UM = UserModel()
 
 class UserController(object):
     """docstring for UserController"""
-    def __init__(self, argz = 0):
+    def __init__(self, argz=0):
         self.argz = argz
 
     def register_user(self, data):
+        """register_user"""
+
         if "name" not in data:
             return {"success":False, "msg":"name is required"}
         elif "email" not in data:
@@ -28,43 +29,32 @@ class UserController(object):
             "email" : data["email"],
             "password" : data["password"]
         }
-        # check if email exists
-        if UserModel.email_exists(user_obj["email"])["success"]:
-            return {"success":False, "msg":"Email already exists"}
 
-        # create user
-        UserModel.register(user_obj)
-        return {"success":True, "msg":"Account created successfully"}
+        return UM.register_user(user_obj)
 
     # login user
     def login_user(self, data):
+        """login_user"""
         if "email" not in data:
-            return {"success":False, "msg":"email is required"}
+            return {"success":False, "msg":"Email is required"}
         if "password" not in data:
-            return {"success":False, "msg":"password is required"}
+            return {"success":False, "msg":"Password is required"}
 
         user_obj = {
             "email" : data["email"],
             "password" : data["password"]
         }
 
-        # check if email exists in the db
-        res = UserModel.is_member(user_obj)
 
-        if res["success"]:
-            member = res["user"]
-            # check if passwords match
-            if sha256_crypt.verify(user_obj["password"], member["password"]):
-                token = jwt.encode({'uid':member["id"], 'exp': datetime.datetime.utcnow()+datetime.timedelta(minutes=60)}, app.config['SECRET_KEY'])
-                
-                return {"success":True, "token":token.decode('UTF-8')}
+        # check if already logged in user
+        if "email" in session and session["email"] == data["email"]:
+            return {"success":False, "msg":"Already logged in. Redirecting..."}
 
-            return { "success":False, "message":"Incorrect username or password" }
-
-        return {"success":False, "message":"User not found"}
+        return UM.login_user(user_obj)
 
     # reset password
     def reset_password(self, data):
+        """reset_password"""
         if "email" not in data:
             return {"success":False, "msg":"email is required"}
         elif "password" not in data:
@@ -76,12 +66,8 @@ class UserController(object):
 
         user_obj = {
             "email" : data["email"],
-            "password" : sha256_crypt.encrypt(str(data["password"]))
+
+            "password" : (data["password"])
         }
 
-        return UserModel.reset_password(user_obj)
-
-    def get_user(self, uid):
-        return UserModel.get_user(uid)
-        
-    
+        return UM.reset_password(user_obj)
