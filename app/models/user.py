@@ -3,7 +3,8 @@ from flask import session
 
 class UserModel(object):
     """docstring for User"""
-    def __init__(self, users=[{"id":1, "name":"Sibo", "email":"test@gmail.com", "password":"1234"}]):
+    inituser = {"id":1, "name":"Sibo", "email":"test@gmail.com", "password":"1234"}
+    def __init__(self, users=[inituser]):
         self.users = users
 
     # add user to the users array
