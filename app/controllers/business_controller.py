@@ -1,55 +1,61 @@
+"""docstring for Business Controller"""
 from app.models.business import BusinessModel
-BusinessModel = BusinessModel()
+BM = BusinessModel()
 class BusinessController(object):
+    """docstring for Business Class"""
     def __init__(self, arg=0):
         self.arg = arg
 
     def register_business(self, uid, business):
-        if "name" not in business:
-            return {"success":False, "msg":"Business name ('name') is required"}
-        elif "category" not in business:
-            return {"success":False, "msg":"Category is required"}
-        elif "location" not in business:
-            return {"success":False, "msg":"Location is required"}
+        """docstring for register business"""
+        fields = ["name", "category", "location"]
+        res = self.check_req_fields(business, fields)
+        if res["success"]:
+            b_obj = {
+                "name" : business["name"],
+                "category" : business["category"],
+                "location" : business["location"]
+            }
 
-        b_obj = {
-            "name" : business["name"],
-            "category" : business["category"],
-            "location" : business["location"]            
-        }
-
-        BusinessModel.register_business(uid, b_obj)
-        return {"success":True, "msg":"Business Created"}
+            BM.register_business(uid, b_obj)
+            return {"success":True, "msg":"Business Created"}
+        return res
 
     # get all businesses
     def get_all_businesses(self):
-        return BusinessModel.get_all_businesses()
-    
+        """docstring for get all business"""
+        return BM.get_all_businesses()
+
     def update_business(self, uid, bid, business):
-        if "name" not in business:
-            return {"success":False, "msg":"Business name ('name') is required"}
-        elif "category" not in business:
-            return {"success":False, "msg":"Category is required"}
-        elif "location" not in business:
-            return {"success":False, "msg":"Location is required"}
-
-        b_obj = {
-            "name" : business["name"],
-            "category" : business["category"],
-            "location" : business["location"]            
-        }
-
-        return BusinessModel.update_business(uid, bid, b_obj)
+        """docstring for updating a business"""
+        fields = ["name", "category", "location"]
+        res = self.check_req_fields(business, fields)
+        if res["success"]:
+            b_obj = {
+                "name" : business["name"],
+                "category" : business["category"],
+                "location" : business["location"]
+            }
+            return BM.update_business(uid, bid, b_obj)
+        return res
 
     # get single bsuiness
     def get_business(self, bid):
+        """docstring for get business"""
         if bid.isdigit():
-            return BusinessModel.get_business(bid)
+            return BM.get_business(bid)
         return {"success":False, "msg":"Invalid business id"}
 
     # delete business
     def delete_business(self, bid, uid):
+        """docstring for delete business"""
         if bid.isdigit():
-            return BusinessModel.delete_business(bid, uid)
+            return BM.delete_business(bid, uid)
         return {"success":False, "msg":"Invalid business id"}
 
+    def check_req_fields(self, obj, fields):
+        """checks required fields"""
+        for field in fields:
+            if field not in obj:
+                return {"success":False, "msg":"Business "+field +" ('"+field+ "') is required"}
+        return {"success":True}
