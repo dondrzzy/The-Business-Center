@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/dondrzzy/The-Business-Center.svg?branch=ft-api-postgres)](https://travis-ci.org/dondrzzy/The-Business-Center)
-[![Coverage Status](https://coveralls.io/repos/github/dondrzzy/The-Business-Center/badge.svg)](https://coveralls.io/github/dondrzzy/The-Business-Center)
+[![Coverage Status](https://coveralls.io/repos/github/dondrzzy/The-Business-Center/badge.svg?branch=ft-api-postgres)](https://coveralls.io/github/dondrzzy/The-Business-Center?branch=ft-api-postgres)
 # The-Business-Center
 The one stop center to boost your business
 
