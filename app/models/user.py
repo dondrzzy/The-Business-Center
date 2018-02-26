@@ -1,19 +1,21 @@
+""" docstring for User model"""
 from app import db
 from app.schemas import User
 
-
 class UserModel(object):
     """docstring for User"""
-    def __init__(self, users = []):
+    def __init__(self, users=[]):
         self.users = users
 
 
     def register(self, user):
+        """add user to db"""
         new_user = User(user["name"], user["email"], user["password"])
         db.session.add(new_user)
         db.session.commit()
-        
+
     def get_user(self, uid):
+        """ get user from db """
         user = User.query.filter_by(id=uid).first()
         member = {
             'id':user.id,
@@ -23,6 +25,7 @@ class UserModel(object):
         return {"success":True, "user":member}
 
     def login(self, _user):
+        """ login user """
         for user in self.users:
             if user["email"] == _user["email"]:
                 if user["password"] == _user["password"]:
@@ -33,13 +36,15 @@ class UserModel(object):
         return {"success":False, "pwd":False}
 
     def email_exists(self, email):
+        """ check if email exists in db """
         user = User.query.filter_by(email=email).first()
         if not user:
             return{"success":False}
         return {"success":True}
-        
+
 
     def is_member(self, _user):
+        """ check if email exists in db """
         user = User.query.filter_by(email=_user["email"]).first()
         if not user:
             return {"success":False}
@@ -52,12 +57,10 @@ class UserModel(object):
         return {"success":True, "user":member}
 
     def reset_password(self, _user):
+        """ docstsing for resetting db password """
         user = User.query.filter_by(email=_user["email"]).first()
         if not user:
-            return {"success":False, "msg":"User not  found"}
+            return {"success":False, "msg":"User not found"}
         user.password = _user["password"]
         db.session.commit()
         return {"success":True, "msg":"Password reset successfully"}
-
-
-
