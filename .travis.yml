@@ -1,0 +1,17 @@
+language: python
+python:
+  - "3.6.4"
+cache: pip3
+services:
+  - postgresql
+install:
+  - pip3 install -r requirements.txt
+  - pip3 install pytest pytest-cov
+  - pip3 install coveralls
+before_script:
+  - psql -c "CREATE DATABASE tbc_db_test;" -U postgres
+  - psql -c "CREATE USER tbc_db_test WITH PASSWORD '12345678';" -U postgres
+script:
+  - pytest --cov=app/
+after_success:
+  - coveralls

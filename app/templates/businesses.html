@@ -1,0 +1,113 @@
+{%  extends 'layout.html' %}
+
+{% block body %}
+
+<div class="row">
+        <div class="col-md-12">
+            <div class="jumbotron">
+                <h4>Business {{ id }}</h4>
+                <p>We at Business  {{ id }} limit {{ limit }} are tailored to suit your needs. Filter through business by location or category</p>                
+                <div class="row">
+                    <div class="col-md-6 ">
+                        <form action="" metho="get">
+                            <div class="form-group">
+                                <label for="searchstr" class="control-label">Search:{{ searchStr }}</label>
+                                <input type="text" name="q" class="form-control" value="" placeholder="*Type company name...">
+                            </div>
+                            
+                            <button class="btn btn-primary btn-block btn-md">SEARCH</button>
+                        </form>
+                    </div>
+                    <div class="col-md-6 ">
+                        <form action="" metho="get">
+                            <div class="form-group">
+                                <label class="control-label" for=""><small>Filter By Cartegory:</small></label>
+                                <select name="cat" id="" class="form-control">
+                                    <option selected></option>
+                                    <option value="Consultancy">Consultancy</option>
+                                    <option value="Engineering">Engineering</option>
+                                    <option value="IT">IT</option>   
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="location" class="control-label">Filter By Location:</label>
+                                <input type="text" name="loc" class="form-control" value="" placeholder="*Location...">
+                            </div>
+                            <button class="btn btn-primary btn-block btn-md">SEARCH</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="well well-sm">
+                <h4><a href="/businesses/1">Business Name</a> | <span>Category</span></h4>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur laborum dolor non reprehenderit aliquid, expedita quidem quas doloremque magnam magni nemo minima ducimus aut hic rem neque eius! Harum, id.
+                </p>                
+                <div>
+                    <p>Location: <small>Address</small></p>
+                </div>
+                        
+                    
+                <hr>
+                <a data-toggle="collapse" class="btn btn-default" data-target="#demo1">Show Reviews <i class="fas fa-comment"></i></a>
+                <a href="javascript:void(0)" class="post_review btn btn-sm btn-primary">Post Review</a>
+                <div class="form-group post">
+                    
+                </div>
+                <div id="demo1" class="collapse">
+                    <small>
+                        <p><b>User:</b>comment <a href="">edit</a> | <a href="">delete</a></p>
+                        <p><b>User:</b>comment</p>
+                        <p><b>User:</b>comment</p>
+                    </small>
+                </div>
+                
+            </div>
+            
+            <div class="well well-sm">
+                <h4><a href="/businesses/2">Business Name</a> | <span>Category</span></h4>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur laborum dolor non reprehenderit aliquid, expedita quidem quas doloremque magnam magni nemo minima ducimus aut hic rem neque eius! Harum, id.
+                </p>                
+                <div>
+                    <p>Location: <small>Address</small></p>
+                </div>
+                        
+                    
+                <hr>
+                <a data-toggle="collapse" class="btn btn-default" data-target="#demo2">Show Reviews <i class="fas fa-comment"></i></a>
+                <a href="javascript:void(0)" class="post_review btn btn-sm btn-primary">Post Review</a>
+                <div class="form-group post">
+                    
+                </div>
+                <div id="demo2" class="collapse">
+                    <small>
+                        <p><b>User:</b>comment <a href="">edit</a> | <a href="">delete</a></p>
+                        <p><b>User:</b>comment</p>
+                        <p><b>User:</b>comment</p>
+                    </small>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+<script>
+
+    $(document).on('click', '.post_review', function(){
+        var postform = "<div class='postform'><textarea name='comment' class='form-control'></textarea>"
+            postform += "<button class='post_sub btn btn-sm btn-success'>Post</button></div>";
+        $(this).siblings(".post").html(postform);               
+    });
+    $(document).on('click', '.post_sub', function(){
+        var new_review = "<p><b>User:</b>comment <a href=''>edit</a> | <a href=''>delete</a></p>";
+        $(this).parents('.post').siblings('.collapse').find('small').append(new_review)
+        // $(this).parent('.postform').remove();
+    });
+</script>
+
+{% endblock %}
