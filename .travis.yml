@@ -10,7 +10,7 @@ install:
   - pip3 install coveralls
 before_script:
   - psql -c "CREATE DATABASE tbc_db_test;" -U postgres
-  - psql -c "CREATE USER tbc_db WITH PASSWORD '12345678';" -U postgres
+  - psql -c "CREATE USER tbc_db_test WITH PASSWORD '12345678';" -U postgres
 script:
   - pytest --cov=app/
 after_success:
