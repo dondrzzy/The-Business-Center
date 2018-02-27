@@ -7,7 +7,7 @@
 **/__pycache/
 **/__pycache/**
 /__pycache__/
-.py.test_cache
+.pytest_cache/
 app/__pycache__/
 app/controllers/__pycache__/
 app/models/__pycache__/
