@@ -21,7 +21,7 @@ class TestingConfig(Config):
     """docstring for Testing"""
     DEBUG = True    
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = os.getenv('TEST_DATABASE_URL', postgres_database+'_test')
+    SQLALCHEMY_DATABASE_URI = os.getenv('TEST_DATABASE_URL', postgres_database)
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 class ProductionConfig(Config):
