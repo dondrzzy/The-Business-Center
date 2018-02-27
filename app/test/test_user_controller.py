@@ -36,16 +36,6 @@ class TestUserController(unittest.TestCase):
         res = self.user_controller.login_user(test_user)
         self.assertEqual(res["msg"], "password is required")
 
-    def test_reset_password(self):
-        """ tests for unknown user resetting password """
-        test_user = {
-            "email":"unkown@gmail.com",
-            "password":"1234",
-            "password_c":"1234"
-        }
-        res = self.user_controller.reset_password(test_user)
-        self.assertEqual(res["msg"], "User not found")
-
     def test_reset_pwd_mistmatch(self):
         """ test of password mismatch """
         test_user = {
