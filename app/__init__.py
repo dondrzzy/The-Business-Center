@@ -2,14 +2,14 @@
 import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from app.config import app_configuration
+from app.config import CONF
 
 # Flask-SQLAlchemy: Initialize
 app = Flask(__name__)
 
 #Configuration Parameters for the app
-environ = os.getenv("ENVIRON", 'development')
-app.config.from_object(app_configuration[environ])
+ENV = os.getenv("ENVIRON", 'testing')
+app.config.from_object(CONF[ENV])
 
 db = SQLAlchemy(app)
 

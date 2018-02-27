@@ -74,4 +74,4 @@ class BusinessModel(object):
         db.session.delete(business)
         db.session.commit()
 
-        return {"succcess":True, "msg":"Business successfully deleted"}
+        return {"success":True, "msg":"Business successfully deleted"}

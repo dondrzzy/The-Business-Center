@@ -18,8 +18,6 @@ class TestBusinessController(unittest.TestCase):
 
     def test_no_review(self):
         """ testing adding a review to an invalid business """
-        r_obj = {
-            
-        }
+        r_obj = {}
         res = self.review_controller.add_review(r_obj, '1', 2)
         self.assertFalse(res["success"])
