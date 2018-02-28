@@ -13,7 +13,7 @@ app.config.from_object(CONF[ENV])
 
 db = SQLAlchemy(app)
 
-from app.schemas import User, Business, Review
+from app.model import User, Business, Review
 
 with app.app_context():
     db.create_all()

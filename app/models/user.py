@@ -1,6 +1,6 @@
 """ docstring for User model"""
 from app import db
-from app.schemas import User
+from app.model import User
 
 class UserModel(object):
     """docstring for User"""
@@ -29,7 +29,6 @@ class UserModel(object):
         for user in self.users:
             if user["email"] == _user["email"]:
                 if user["password"] == _user["password"]:
-                    # session["id"] = user["id"]
                     return {"success":True, "pwd":True}
                 return {"success":True, "pwd":False}
 

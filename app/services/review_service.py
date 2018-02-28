@@ -1,12 +1,12 @@
 """ docstring for review controller """
 from app.models.review import ReviewModel
-from app.controllers.business_controller import BusinessController
+from app.services.business_service import BusinessService
 
 # instantiate models
-BC = BusinessController()
+BS = BusinessService()
 RM = ReviewModel()
 
-class ReviewController(object):
+class ReviewService(object):
     """docstring for ReviewController"""
     def __init__(self, arg=0):
         self.arg = arg
@@ -24,7 +24,7 @@ class ReviewController(object):
         }
 
         # check if bid exists
-        b_res = BC.get_business(bid)
+        b_res = BS.get_business(bid)
         if not b_res["success"]:
             return {"success":False, "msg":"Business with id "+bid+" not found"}
 

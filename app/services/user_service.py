@@ -8,7 +8,7 @@ from app.models.user import UserModel
 # instatiate models
 UM = UserModel()
 
-class UserController(object):
+class UserService(object):
     """docstring for UserController"""
     def __init__(self, argz=0):
         self.argz = argz

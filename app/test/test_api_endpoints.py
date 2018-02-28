@@ -3,8 +3,8 @@ import json
 from flask.ext.testing import TestCase
 from app import app, db
 from app.config import CONF
-from app.schemas import User
-from app.schemas import Business
+from app.model import User
+from app.model import Business
 
 
 

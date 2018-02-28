@@ -1,6 +1,6 @@
 """ docstring for busines model """
 from app import db
-from app.schemas import Business
+from app.model import Business
 class BusinessModel(object):
     """docstring for Business model class """
     def __init__(self, businesses=[]):

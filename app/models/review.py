@@ -1,9 +1,9 @@
 """ docstring for review controller """
 from app import db
-from app.schemas import Review
-from app.controllers.user_controller import UserController
+from app.model import Review
+from app.services.user_service import UserService
 
-UC = UserController()
+US = UserService()
 
 class ReviewModel(object):
     """ docstring for review class/model """
@@ -26,7 +26,7 @@ class ReviewModel(object):
             r_obj = {
                 'id':rev.id,
                 'text':rev.text,
-                'user':UC.get_user(rev.uid)["user"]
+                'user':US.get_user(rev.uid)["user"]
             }
             output.append(r_obj)
         return {"success":True, "reviews":output}

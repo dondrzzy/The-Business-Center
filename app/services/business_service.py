@@ -1,7 +1,7 @@
 """docstring for Business Controller"""
 from app.models.business import BusinessModel
 BM = BusinessModel()
-class BusinessController(object):
+class BusinessService(object):
     """docstring for Business Class"""
     def __init__(self, arg=0):
         self.arg = arg
