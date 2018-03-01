@@ -12,7 +12,7 @@ app = Flask(__name__)
 #Configuration Parameters for the app environment
 ENV = os.getenv("ENVIRON", 'development')
 print(CONF['development'])
-app.config.from_object(CONF['production'])
+app.config.from_object(CONF['ENV'])
 
 db = SQLAlchemy(app)
 
