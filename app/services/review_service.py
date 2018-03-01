@@ -1,38 +1,37 @@
 """ docstring for review controller """
-from app.models.review import ReviewModel
 from app.services.business_service import BusinessService
+from app.models.review import Review
 
 # instantiate models
 BS = BusinessService()
-RM = ReviewModel()
 
 class ReviewService(object):
     """docstring for ReviewController"""
     def __init__(self, arg=0):
         self.arg = arg
 
-    def add_review(self, data, bid, uid):
+    def add_review(self, data, business_id, user_id):
         """ add a review to a business """
-        if not bid.isdigit():
-            return {"success":False, "msg":"Invalid business id"}
+        if not business_id.isdigit():
+            return {"success":False, "message":"Invalid business id"}
 
         if "text" not in data:
-            return {"success":False, "msg":"Provide a review ('text')"}
+            return {"success":False, "message":"Provide a review ('text')"}
 
         review = {
             "text" : data["text"]
         }
 
-        # check if bid exists
-        b_res = BS.get_business(bid)
-        if not b_res["success"]:
-            return {"success":False, "msg":"Business with id "+bid+" not found"}
+        # check if business id exists
+        business_result = BS.get_business(business_id)
+        if not business_result["success"]:
+            return {"success":False, "message":"Business with id "+business_id+" not found"}
 
-        RM.add_review(review, bid, uid)
+        Review(text=data["text"], business_id=business_id, user_id=user_id).add_review()
 
-        return {"success":True, "msg":"Review posted successfully"}
+        return {"success":True, "message":"Review posted successfully"}
 
-    def get_business_reviews(self, bid):
+    def get_business_reviews(self, business_id):
         """ get a business reviews """
-        return RM.get_business_reviews(bid)
+        return Review.get_business_reviews(business_id)
         

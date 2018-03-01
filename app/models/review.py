@@ -1,32 +1,34 @@
 """ docstring for review controller """
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import relationship
 from app import db
-from app.model import Review
 from app.services.user_service import UserService
 
-US = UserService()
 
-class ReviewModel(object):
+class Review(db.Model):
     """ docstring for review class/model """
-    def __init__(self, reviews=[]):
-        self.reviews = reviews
+    id = db.Column(db.Integer, primary_key=True)
+    text = db.Column(db.String(150), nullable=False)
+    business_id = db.Column(db.Integer, ForeignKey('business.id'), nullable=False)
+    user_id = db.Column(db.Integer, ForeignKey('user.id'), nullable=False)
 
 
-    def add_review(self, rev, bid, uid):
+    def add_review(self):
         """ docstring for add review fn"""
-        db.session.add(Review(rev["text"], bid, uid))
+        db.session.add(self)
         db.session.commit()
 
-    def get_business_reviews(self, bid):
-        """ docstrfor get business reviews """
-        reviews = Review.query.filter_by(bid=bid).all()
+    def get_business_reviews(business_id):
+        """ return all reviews attached to this business """
+        reviews = Review.query.filter_by(business_id=business_id).all()
         if not reviews:
             return {"success":False, "msg":"No Business Reviews"}
         output = []
-        for rev in reviews:
-            r_obj = {
-                'id':rev.id,
-                'text':rev.text,
-                'user':US.get_user(rev.uid)["user"]
+        for review in reviews:
+            review_object = {
+                'id':review.id,
+                'text':review.text,
+                'user':US.get_user(review.user_id)["user"]
             }
-            output.append(r_obj)
+            output.append(review_object)
         return {"success":True, "reviews":output}

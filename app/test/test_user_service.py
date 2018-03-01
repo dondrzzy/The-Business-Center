@@ -1,31 +1,31 @@
 """ docstring for test user controller test """
 import unittest
-from app.controllers.user_controller import UserController
+from app.services.user_service import UserService
 
 
 class TestUserController(unittest.TestCase):
     """ docstring for testApp class """
     def setUp(self):
         """ init set up """
-        self.user_controller = UserController()
+        self.user_service = UserService()
 
     def test_user_registration_no_name(self):
         """testing user registration """
         test_user = {
             "email":"test@gmail.com",
             "password":"1234",
-            "password_c":"1234"
+            "confirm_password":"1234"
         }
-        res = self.user_controller.register_user(test_user)
-        epx_res = {"success":False, "msg":"name is required"}
-        self.assertEqual(res, epx_res, msg="Registration method faulty")
+        res = self.user_service.register_user(test_user)
+        expected_res = {"success":False, "message":"name is required"}
+        self.assertEqual(res, expected_res, msg="Registration method faulty")
 
     def test_login_missing(self):
-        """tests for mising inputs"""
+        """tests for mising inputs when user logs in"""
         test_user = {
             "password":"1234"
         }
-        res = self.user_controller.login_user(test_user)
+        res = self.user_service.login_user(test_user)
         self.assertFalse(res["success"])
 
     def test_login_error_res(self):
@@ -33,15 +33,15 @@ class TestUserController(unittest.TestCase):
         test_user = {
             "email":"test@gmail.com"
         }
-        res = self.user_controller.login_user(test_user)
-        self.assertEqual(res["msg"], "password is required")
+        res = self.user_service.login_user(test_user)
+        self.assertEqual(res["message"], "password is required")
 
     def test_reset_pwd_mistmatch(self):
         """ test of password mismatch """
         test_user = {
             "email":"unkown@gmail.com",
             "password":"1234",
-            "password_c":"124"
+            "confirm_password":"124"
         }
-        res = self.user_controller.reset_password(test_user)
+        res = self.user_service.reset_password(test_user)
         self.assertFalse(res["success"])

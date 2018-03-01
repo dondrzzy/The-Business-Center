@@ -1,12 +1,12 @@
 """ docstring for testing business controller """
 import unittest
-from app.controllers.business_controller import BusinessController
+from app.services.business_service import BusinessService
 
 class TestBusinessController(unittest.TestCase):
     """ docstring for testApp class """
     def setUp(self):
         """ init set up """
-        self.business_controller = BusinessController()
+        self.business_service = BusinessService()
 
     def test_missing_inputs(self):
         """ tests for missing acc credentials """
@@ -14,7 +14,7 @@ class TestBusinessController(unittest.TestCase):
             "name":"Business",
             "category":"IT"
         }
-        res = self.business_controller.register_business(9, b_obj)
+        res = self.business_service.register_business(9, b_obj)
         self.assertFalse(res["success"])
 
     def test_reg_error_resp(self):
@@ -23,15 +23,15 @@ class TestBusinessController(unittest.TestCase):
             "name":"Business",
             "category":"IT"
         }
-        res = self.business_controller.register_business(9, b_obj)
-        self.assertEqual(res["msg"], "Business location ('location') is required")
+        res = self.business_service.register_business(9, b_obj)
+        self.assertEqual(res["message"], "Business location ('location') is required")
 
     def test_get_unknown_business(self):
         """ tests for getting uknown business """
-        res = self.business_controller.get_business('sdjasdjbhasY')
+        res = self.business_service.get_business('sdjasdjbhasY')
         self.assertFalse(res["success"])
 
     def test_delete_inavlid_business(self):
         """ tests for deleting unknown business """
-        res = self.business_controller.delete_business('sdjasdjbhasY', 9)
+        res = self.business_service.delete_business('sdjasdjbhasY', 9)
         self.assertFalse(res["success"])

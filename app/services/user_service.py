@@ -3,10 +3,10 @@ import datetime
 import jwt
 from passlib.hash import sha256_crypt
 from app import app
-from app.models.user import UserModel
+from app.models.user import User
 
 # instatiate models
-UM = UserModel()
+# UM = User()
 
 class UserService(object):
     """docstring for UserController"""
@@ -15,43 +15,38 @@ class UserService(object):
 
     def register_user(self, data):
         """docstring for registering a  user account """
-        fields = ['name', 'email', 'password', 'password_c']
-        res = self.check_req_fields(data, fields, True)
-        if res["success"]:
+        fields = ['name', 'email', 'password', 'confirm_password']
+        result = self.check_req_fields(data, fields, True)
 
-            user_obj = {
-                "name" : data["name"],
-                "email" : data["email"],
-                "password" : data["password"]
-            }
+        if result["success"]:
+
             # check if email exists
-            if UM.email_exists(user_obj["email"])["success"]:
-                return {"success":False, "msg":"Email already exists"}
+            if User.email_exists(data["email"])["success"]:
+                return {"success":False, "message":"Email already exists"}
 
             # create user
-            UM.register(user_obj)
-            return {"success":True, "msg":"Account created successfully"}
-        return res
+            User(name=data["name"], email=data["email"],
+                 password=sha256_crypt.encrypt(str(data["password"]))).register()
+            return {"success":True, "message":"Account created successfully"}
+        return result
 
     # login user
     def login_user(self, data):
         """ login in user """
         fields = ['email', 'password']
-        res = self.check_req_fields(data, fields)
-        if res["success"]:
+        result = self.check_req_fields(data, fields)
+        if result["success"]:
 
-            user_obj = {
-                "email" : data["email"],
-                "password" : data["password"]
-            }
+            # check if already logged in
 
             # check if email exists in the db
-            res = UM.is_member(user_obj)
+            user_result = User.is_member(data)
 
-            if res["success"]:
-                member = res["user"]
+            # If user not found, confirm passwords and create token
+            if user_result["success"]:
+                member = user_result["user"]
                 # check if passwords match
-                if sha256_crypt.verify(user_obj["password"], member["password"]):
+                if sha256_crypt.verify(data["password"], member["password"]):
                     token = jwt.encode(
                         {
                             'uid':member["id"],
@@ -63,33 +58,52 @@ class UserService(object):
                 return {"success":False, "message":"Incorrect username or password"}
 
             return {"success":False, "message":"User not found"}
-        return res
+        return result
 
     # reset password
     def reset_password(self, data):
-        """ docstring for reset a password """
-        fields = ['email', 'password', 'password_c']
-        res = self.check_req_fields(data, fields, True)
-        if res["success"]:
+        """ 
+            reset a password 
+            using data coming in from the view
+            returns res from
+        """
+        fields = ['email', 'password', 'confirm_password']
+        result = self.check_req_fields(data, fields, True)
+        if result["success"]:
 
-            user_obj = {
+            user_object = {
                 "email" : data["email"],
                 "password" : sha256_crypt.encrypt(str(data["password"]))
             }
 
-            return UM.reset_password(user_obj)
-        return res
+            return User.reset_password(user_object)
+        return result
 
-    def get_user(self, uid):
-        """ return a passed user """
-        return UM.get_user(uid)
+    def get_user(self, user_id):
+        """ return a passed user using the user id passed """
+        return User.get_user(user_id)
 
-    def check_req_fields(self, obj, fields, comp_pwds=False):
+    def user_logged_in(self, token, data):
+        # check token
+
+        try:
+            token_data = jwt.decode(token, app.config['SECRET_KEY'])
+            current_user = token_data["uid"]
+            # get user if exists
+            result = User.get_user(current_user)
+            if result["success"]:
+                if result["user"]["email"] == data["email"]:
+                    return True
+            return False
+        except:
+            return False
+
+    def check_req_fields(self, _object, fields, comp_pwds=False):
         """checks required fields"""
         for field in fields:
-            if field not in obj:
-                return {"success":False, "msg":field + " is required"}
+            if field not in _object:
+                return {"success":False, "message":field + " is required"}
         if comp_pwds:
-            if obj["password"] != obj["password_c"]:
-                return {"success":False, "msg":"passwords do not match"}
+            if _object["password"] != _object["confirm_password"]:
+                return {"success":False, "message":"passwords do not match"}
         return {"success":True}
