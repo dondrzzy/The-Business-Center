@@ -5,13 +5,16 @@ from functools import wraps
 from flask_sqlalchemy import SQLAlchemy
 from app.config import CONF
 import jwt
+from flasgger import Swagger
+from app.apidocs import Apidocs
 
 # Flask-SQLAlchemy: Initialize
 app = Flask(__name__)
+app.config['SWAGGER'] = Apidocs.swagger_conf
+swagger = Swagger(app)
 
 #Configuration Parameters for the app environment
 ENV = os.getenv("ENVIRON", 'development')
-print(CONF['development'])
 app.config.from_object(CONF['production'])
 
 db = SQLAlchemy(app)
@@ -48,3 +51,25 @@ from app.api.v1.review.views import review_blueprint
 app.register_blueprint(users_blueprint)
 app.register_blueprint(business_blueprint)
 app.register_blueprint(review_blueprint)
+
+
+# @app.route('/api/v1/businesses')
+# def colors(palette):
+#     """Example endpoint returning a list of colors by palette
+#     This is using docstrings for specifications.
+#     ---
+#     parameters: []
+#     responses:
+#         200:
+#           description: "operation successful"
+#     """
+#     all_colors = {
+#         'cmyk': ['cian', 'magenta', 'yellow', 'black'],
+#         'rgb': ['red', 'green', 'blue']
+#     }
+#     if palette == 'all':
+#         result = all_colors
+#     else:
+#         result = {palette: all_colors.get(palette)}
+
+#     return jsonify(result)
