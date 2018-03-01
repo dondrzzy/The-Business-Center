@@ -25,10 +25,12 @@ class TestingConfig(Config):
 
 class ProductionConfig(Config):
     """docstring for production"""
-    DEBUG = False
+    DEBUG = True
+    SQLALCHEMY_DATABASE_URI = 'postgres://fhdizlfioazvye:158df7e8e77540d8b65b4bce2cc3773aa6ef2e5a7675305fa855da9c53c6508a@ec2-54-225-249-161.compute-1.amazonaws.com:5432/dcsv4cj7150243'
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 CONF = dict(
     development=DevelopmentConfig,
     testing=TestingConfig,
-    Production=ProductionConfig
+    production=ProductionConfig
 )
