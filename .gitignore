@@ -10,4 +10,5 @@
 .pytest_cache/
 app/__pycache__/
 app/**/_pychache__/
+/venv/
 
