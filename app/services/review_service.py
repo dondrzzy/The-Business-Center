@@ -1,4 +1,5 @@
 """ docstring for review controller """
+from app import jsonify
 from app.services.business_service import BusinessService
 from app.models.review import Review
 
@@ -13,10 +14,10 @@ class ReviewService(object):
     def add_review(self, data, business_id, user_id):
         """ add a review to a business """
         if not business_id.isdigit():
-            return {"success":False, "message":"Invalid business id"}
+            return jsonify({"success":False, "message":"Invalid business id"}),400
 
         if "text" not in data:
-            return {"success":False, "message":"Provide a review ('text')"}
+            return jsonify({"success":False, "message":"Provide a review ('text')"}),400
 
         review = {
             "text" : data["text"]
@@ -25,11 +26,11 @@ class ReviewService(object):
         # check if business id exists
         business_result = BS.get_business(business_id)
         if not business_result["success"]:
-            return {"success":False, "message":"Business with id "+business_id+" not found"}
+            return jsonify({"success":False, "message":"Business with id "+business_id+" not found"}),400
 
         Review(text=data["text"], business_id=business_id, user_id=user_id).add_review()
 
-        return {"success":True, "message":"Review posted successfully"}
+        return jsonify({"success":True, "message":"Review posted successfully"}),201
 
     def get_business_reviews(self, business_id):
         """ get a business reviews """

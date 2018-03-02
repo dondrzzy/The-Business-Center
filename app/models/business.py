@@ -1,5 +1,6 @@
 """ docstring for busines model """
 from app import db
+from app import jsonify
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship
 # from app.model import Business
@@ -49,10 +50,10 @@ class Business(db.Model):
         """ updates a business """
         business = Business.query.filter_by(id=business_id).first()
         if not business:
-            return {"success":False, "message":"Business with id "+business_id+" not found"}
+            return jsonify({"success":False, "message":"Business with id "+business_id+" not found"}),400
 
         if business.user_id != user_id:
-            return {"success":False, "message":"You can not perform that action"}
+            return jsonify({"success":False, "message":"You can not perform that action"}),401
 
         business.name = _business["name"]
         business.category = _business["category"]
@@ -64,19 +65,19 @@ class Business(db.Model):
             'category':business.category,
             'location':business.location
         }
-        return {"success":True, "message":"Business updated successfully", "business":business_object}
+        return jsonify({"success":True, "message":"Business updated successfully", "business":business_object}),200
 
     def delete_business(business_id, user_id):
         """ deletes a business """
         # get business
         business = Business.query.filter_by(id=business_id).first()
         if not business:
-            return {"success":False, "message":"Business with id "+business_id+" not found"}
+            return jsonify({"success":False, "message":"Business with id "+business_id+" not found"}),400
             # check owner
         if business.user_id != user_id:
-            return {"success":False, "message":"You can not perform that action"}
+            return jsonify({"success":False, "message":"You can not perform that action"}),401
 
         db.session.delete(business)
         db.session.commit()
 
-        return {"success":True, "message":"Business successfully deleted"}
+        return jsonify({"success":True, "message":"Business successfully deleted"}),200

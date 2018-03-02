@@ -1,5 +1,6 @@
 """docstring for Business Controller"""
 from app.models.business import Business
+from app import jsonify
 
 
 class BusinessService(object):
@@ -20,8 +21,8 @@ class BusinessService(object):
 
             Business(user_id=user_id, name=business["name"], category=business["category"],
                      location=business["location"]).register_business()
-            return {"success":True, "message":"Business Created"}
-        return result
+            return jsonify({"success":True, "message":"Business Created"}),201
+        return jsonify(result),400
 
     # get all businesses
     def get_all_businesses(self):
@@ -39,7 +40,7 @@ class BusinessService(object):
                 "location" : business["location"]
             }
             return Business.update_business(user_id, business_id, business_object)
-        return result
+        return jsonify(result),400
 
     # get single bsuiness
     def get_business(self, business_id):
@@ -53,7 +54,7 @@ class BusinessService(object):
         """docstring for delete business"""
         if business_id.isdigit():
             return Business.delete_business(business_id, user_id)
-        return {"success":False, "message":"Invalid business id"}
+        return jsonify({"success":False, "message":"Invalid business id"}),400
 
     def check_req_fields(self, _object, fields):
         """checks required fields"""

@@ -3,6 +3,7 @@ from passlib.hash import sha256_crypt # For hashing password
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship
 from app import db
+from app import jsonify
 # from app.model import User
 
 class User(db.Model):
@@ -73,7 +74,7 @@ class User(db.Model):
         """ docstsing for resetting db password """
         user = User.query.filter_by(email=_user["email"]).first()
         if not user:
-            return {"success":False, "message":"User not found"}
+            return jsonify({"success":False, "message":"User not found"}),304
         user.password = _user["password"]
         db.session.commit()
-        return {"success":True, "message":"Password reset successfully"}
+        return jsonify({"success":True, "message":"Password reset successfully"}),200

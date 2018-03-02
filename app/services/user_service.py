@@ -1,4 +1,5 @@
 """ docstring for user controller"""
+from app import jsonify
 import datetime
 import jwt
 from passlib.hash import sha256_crypt
@@ -22,13 +23,13 @@ class UserService(object):
 
             # check if email exists
             if User.email_exists(data["email"])["success"]:
-                return {"success":False, "message":"Email already exists"}
+                return jsonify({"success":False, "message":"Email already exists"}),400
 
             # create user
             User(name=data["name"], email=data["email"],
                  password=sha256_crypt.encrypt(str(data["password"]))).register()
-            return {"success":True, "message":"Account created successfully"}
-        return result
+            return jsonify({"success":True, "message":"Account created successfully"}),201
+        return jsonify(result),400
 
     # login user
     def login_user(self, data):
@@ -53,12 +54,12 @@ class UserService(object):
                             'exp': datetime.datetime.utcnow()+datetime.timedelta(minutes=60)
                         }, app.config['SECRET_KEY'])
 
-                    return {"success":True, "token":token.decode('UTF-8')}
+                    return jsonify({"success":True, "token":token.decode('UTF-8')}),200
 
-                return {"success":False, "message":"Incorrect username or password"}
+                return jsonify({"success":False, "message":"Incorrect username or password"}),400
 
-            return {"success":False, "message":"User not found"}
-        return result
+            return jsonify({"success":False, "message":"User not found"}),400
+        return jsonify(result),400
 
     # reset password
     def reset_password(self, data):
@@ -77,7 +78,7 @@ class UserService(object):
             }
 
             return User.reset_password(user_object)
-        return result
+        return jsonify(result),400
 
     def get_user(self, user_id):
         """ return a passed user using the user id passed """

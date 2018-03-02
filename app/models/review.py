@@ -2,7 +2,9 @@
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship
 from app import db
+from app import jsonify
 from app.services.user_service import UserService
+US = UserService()
 
 
 class Review(db.Model):
@@ -22,7 +24,7 @@ class Review(db.Model):
         """ return all reviews attached to this business """
         reviews = Review.query.filter_by(business_id=business_id).all()
         if not reviews:
-            return {"success":False, "msg":"No Business Reviews"}
+            return jsonif({"success":True, "msg":"No Business Reviews"}),200
         output = []
         for review in reviews:
             review_object = {
@@ -31,4 +33,4 @@ class Review(db.Model):
                 'user':US.get_user(review.user_id)["user"]
             }
             output.append(review_object)
-        return {"success":True, "reviews":output}
+        return jsonify({"success":True, "reviews":output}),200

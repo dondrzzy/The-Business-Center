@@ -1,9 +1,12 @@
 from flask import redirect, render_template, request, \
     url_for, Blueprint, jsonify
-from app import is_logged_in
+from app import app
+from app.services.token_service import TokenService
+from app import jwt
 
 from app.services.user_service import UserService
 US = UserService()
+TS = TokenService()
 
 """ config """
 
@@ -18,7 +21,7 @@ def register():
     data = request.get_json()
     result = US.register_user(data)
 
-    return jsonify(result) 
+    return result
 
 @users_blueprint.route('/api/v1/auth/login', methods=['POST'])
 def login():
@@ -34,18 +37,30 @@ def login():
 
     result = US.login_user(data)
 
-    return jsonify(result)
+    return result
 
 
 
-@users_blueprint.route('/api/v1/auth/logout', methods=['POST'])
-@is_logged_in
+@users_blueprint.route('/api/v1/auth/logout', methods=['GET'])
 def logout():
     """ logout route """
-    return jsonify({"success":True, "msg":"You are logged out"})
+    token = None
+
+    if 'x-access-token' in request.headers:
+        token = request.headers['x-access-token']
+
+    if not token:
+        return jsonify({'success':False, 'token':False, 'message':'Token is missing'}),401
+
+    try:
+        data = jwt.decode(token, app.config['SECRET_KEY'])
+    except:
+        return jsonify({'success':False, 'token':data, 'message':'Token is invalid'}),401
+
+    return jsonify(TS.blacklist(token)),200
 
 @users_blueprint.route('/api/v1/auth/reset-password', methods=['POST'])
 def reset_password():
     """ reset a password """
     data = request.get_json()
-    return jsonify(US.reset_password(data))
+    return US.reset_password(data)

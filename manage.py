@@ -4,6 +4,7 @@ from flask_migrate import Migrate, MigrateCommand
 from app.models.user import User
 from app.models.business import Business
 from app.models.review import Review
+from app.models.token import Token
 
 from app import app, db
 from app.config import CONF
