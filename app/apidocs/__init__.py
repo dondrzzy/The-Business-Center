@@ -16,7 +16,7 @@ class Apidocs(object):
           "title" : "The Business Center Api"
         },
         "host" : "the-business-center-api.herokuapp.com",
-        "basePath" : "",
+        "basePath" : "/m",
         "tags" : [ {
           "name" : "user",
           "description" : "Operations about user"
