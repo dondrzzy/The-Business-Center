@@ -1,16 +1,16 @@
-
-from flask import request, jsonify, render_template, session, redirect, url_for, Blueprint
+""" business routes """
+from flask import request, jsonify, Blueprint
 from app import is_logged_in
 from app.services.business_service import BusinessService
 BS = BusinessService()
 
 #config
-business_blueprint = Blueprint(
+BUSINESS_BLUEPRINT = Blueprint(
     'business', __name__
 )
 
 # register a business
-@business_blueprint.route('/api/v1/businesses', methods=['POST'])
+@BUSINESS_BLUEPRINT.route('/api/v1/businesses', methods=['POST'])
 @is_logged_in
 def register_business(current_user):
     """ register a business route """
@@ -18,34 +18,33 @@ def register_business(current_user):
 
     result = BS.register_business(int(current_user), business)
 
-    return jsonify(result)
+    return result
 
 
 # get all businesses
-@business_blueprint.route('/api/v1/businesses')
+@BUSINESS_BLUEPRINT.route('/api/v1/businesses')
 def get_all_businesses():
     """ get all businesses route """
-    return jsonify({"success":True, "businesses":BS.get_all_businesses()["businesses"]})
+    return jsonify({"success":True, "businesses":BS.get_all_businesses()["businesses"]}), 200
 
 # get single business businesses
-@business_blueprint.route('/api/v1/businesses/<businessId>')
-def get_business(businessId):
+@BUSINESS_BLUEPRINT.route('/api/v1/businesses/<business_id>')
+def get_business(business_id):
     """ get a business route """
-    return jsonify(BS.get_business(businessId))
+    return jsonify(BS.get_business(business_id))
 
-# incomplete
-@business_blueprint.route('/api/v1/businesses/<businessId>', methods=['PUT'])
+
+@BUSINESS_BLUEPRINT.route('/api/v1/businesses/<business_id>', methods=['PUT'])
 @is_logged_in
-def update_business(current_user, businessId):
+def update_business(current_user, business_id):
     """update a business route """
     data = request.get_json()
 
-    return jsonify(BS.update_business(current_user, businessId, data))
+    return BS.update_business(current_user, business_id, data)
 
 
-
-@business_blueprint.route('/api/v1/businesses/<businessId>', methods=['DELETE'])
+@BUSINESS_BLUEPRINT.route('/api/v1/businesses/<business_id>', methods=['DELETE'])
 @is_logged_in
-def delete_business(current_user, businessId):
+def delete_business(current_user, business_id):
     """ delete a business route"""
-    return jsonify(BS.delete_business(businessId, current_user))
+    return BS.delete_business(business_id, current_user)

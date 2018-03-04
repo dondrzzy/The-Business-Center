@@ -1,8 +1,7 @@
 """ docstring for User model"""
 from passlib.hash import sha256_crypt # For hashing password
-from sqlalchemy import ForeignKey
-from sqlalchemy.orm import relationship
 from app import db
+from app import jsonify
 # from app.model import User
 
 class User(db.Model):
@@ -12,22 +11,17 @@ class User(db.Model):
     email = db.Column(db.String(100), unique=True, nullable=False)
     password = db.Column(db.String(80), nullable=False)
 
-    # def __init__(self, name, email, password):
-    #     """Constructor: to hash password"""
-    #     self.password = sha256_crypt.encrypt(str(password))  # hash submitted password
-    #     self.name = name
-    #     self.email = email
 
     def verify_password(self, in_password):
         """Verify the given password with the stored password hash"""
         return sha256_crypt.verify(in_password, self.pwhash)
-
 
     def register(self):
         """add user to db"""
         db.session.add(self)
         db.session.commit()
 
+    @staticmethod
     def get_user(user_id):
         """ get user from db """
         user = User.query.filter_by(id=user_id).first()
@@ -38,16 +32,7 @@ class User(db.Model):
         }
         return {"success":True, "user":member}
 
-    def login(_user):
-        """ login user """
-        for user in self.users:
-            if user["email"] == _user["email"]:
-                if user["password"] == _user["password"]:
-                    return {"success":True, "password":True}
-                return {"success":True, "password":False}
-
-        return {"success":False, "password":False}
-
+    @staticmethod
     def email_exists(email):
         """ check if email exists in db """
         user = User.query.filter_by(email=email).first()
@@ -56,6 +41,7 @@ class User(db.Model):
         return {"success":True}
 
 
+    @staticmethod
     def is_member(_user):
         """ check if email exists in db """
         user = User.query.filter_by(email=_user["email"]).first()
@@ -69,11 +55,12 @@ class User(db.Model):
         }
         return {"success":True, "user":member}
 
+    @staticmethod
     def reset_password(_user):
         """ docstsing for resetting db password """
         user = User.query.filter_by(email=_user["email"]).first()
         if not user:
-            return {"success":False, "message":"User not found"}
+            return jsonify({"success":False, "message":"User not found"})
         user.password = _user["password"]
         db.session.commit()
-        return {"success":True, "message":"Password reset successfully"}
+        return jsonify({"success":True, "message":"Password reset successfully"}), 200

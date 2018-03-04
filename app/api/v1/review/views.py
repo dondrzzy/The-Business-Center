@@ -1,24 +1,24 @@
-
-from flask import request, jsonify, render_template, session, redirect, url_for, Blueprint
+""" routes for the reviews model """
+from flask import request, Blueprint
 from app import is_logged_in
 from app.services.review_service import ReviewService
 RS = ReviewService()
 
 #config
-review_blueprint = Blueprint(
+REVIEWS_BLUEPRINT = Blueprint(
     'review', __name__
 )
 
 # Reviews routes
-@review_blueprint.route('/api/v1/businesses/<businessId>/reviews', methods=['POST'])
+@REVIEWS_BLUEPRINT.route('/api/v1/businesses/<business_id>/reviews', methods=['POST'])
 @is_logged_in
-def add_review(current_user, businessId):
+def add_review(current_user, business_id):
     """ adds a review route """
     data = request.get_json()
-    return jsonify(RS.add_review(data, businessId, current_user))
+    return RS.add_review(data, business_id, current_user)
 
 # get specific review
-@review_blueprint.route('/api/v1/businesses/<businessId>/reviews')
-def get_business_reviews(businessId):
+@REVIEWS_BLUEPRINT.route('/api/v1/businesses/<business_id>/reviews')
+def get_business_reviews(business_id):
     """ get business rev route """
-    return jsonify(RS.get_business_reviews(businessId))
+    return RS.get_business_reviews(business_id)
