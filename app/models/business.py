@@ -1,8 +1,8 @@
 """ docstring for busines model """
+from sqlalchemy import ForeignKey
 from app import db
 from app import jsonify
-from sqlalchemy import ForeignKey
-from sqlalchemy.orm import relationship
+
 # from app.model import Business
 class Business(db.Model):
     """docstring for Business model class """
@@ -17,6 +17,7 @@ class Business(db.Model):
         db.session.add(self)
         db.session.commit()
 
+    @staticmethod
     def get_all_businesses():
         """ returns all businesses"""
         businesses = Business.query.all()
@@ -32,6 +33,7 @@ class Business(db.Model):
             output.append(business_object)
         return {"businesses":output}
 
+    @staticmethod
     def get_business(business_id):
         """return a single business """
         business = Business.query.filter_by(id=business_id).first()
@@ -45,15 +47,16 @@ class Business(db.Model):
         }
         return {"success":True, "business":business_object}
 
-
+    @staticmethod
     def update_business(user_id, business_id, _business):
         """ updates a business """
         business = Business.query.filter_by(id=business_id).first()
         if not business:
-            return jsonify({"success":False, "message":"Business with id "+business_id+" not found"}),400
+            return jsonify({"success":False,
+                            "message":"Business with id "+business_id+" not found"}), 400
 
         if business.user_id != user_id:
-            return jsonify({"success":False, "message":"You can not perform that action"}),401
+            return jsonify({"success":False, "message":"You can not perform that action"}), 401
 
         business.name = _business["name"]
         business.category = _business["category"]
@@ -65,19 +68,23 @@ class Business(db.Model):
             'category':business.category,
             'location':business.location
         }
-        return jsonify({"success":True, "message":"Business updated successfully", "business":business_object}),200
+        return jsonify({"success":True, "message":"Business updated successfully",
+                        "business":business_object}), 200
 
+    @staticmethod
     def delete_business(business_id, user_id):
         """ deletes a business """
         # get business
         business = Business.query.filter_by(id=business_id).first()
         if not business:
-            return jsonify({"success":False, "message":"Business with id "+business_id+" not found"}),400
+            return jsonify({"success":False,
+                            "message":"Business with id "+business_id+" not found"}), 400
             # check owner
         if business.user_id != user_id:
-            return jsonify({"success":False, "message":"You can not perform that action"}),401
+            return jsonify({"success":False,
+                            "message":"You can not perform that action"}), 401
 
         db.session.delete(business)
         db.session.commit()
 
-        return jsonify({"success":True, "message":"Business successfully deleted"}),200
+        return jsonify({"success":True, "message":"Business successfully deleted"}), 200

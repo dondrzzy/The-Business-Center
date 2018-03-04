@@ -1,6 +1,6 @@
 """ docstring for token model """
 from app import db
-# from app.model import Business
+
 class Token(db.Model):
     """docstring for Business model class """
     id = db.Column(db.Integer, primary_key=True)
@@ -11,6 +11,7 @@ class Token(db.Model):
         db.session.add(self)
         db.session.commit()
 
+    @staticmethod
     def get_token(token):
         """return a single business """
         token = Token.query.filter_by(token=token).first()

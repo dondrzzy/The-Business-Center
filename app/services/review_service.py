@@ -11,28 +11,27 @@ class ReviewService(object):
     def __init__(self, arg=0):
         self.arg = arg
 
-    def add_review(self, data, business_id, user_id):
+    @staticmethod
+    def add_review(data, business_id, user_id):
         """ add a review to a business """
         if not business_id.isdigit():
-            return jsonify({"success":False, "message":"Invalid business id"}),400
+            return jsonify({"success":False, "message":"Invalid business id"}), 400
 
         if "text" not in data:
-            return jsonify({"success":False, "message":"Provide a review ('text')"}),400
-
-        review = {
-            "text" : data["text"]
-        }
+            return jsonify({"success":False, "message":"Provide a review ('text')"}), 400
 
         # check if business id exists
         business_result = BS.get_business(business_id)
         if not business_result["success"]:
-            return jsonify({"success":False, "message":"Business with id "+business_id+" not found"}),400
+            return jsonify({"success":False,
+                            "message":"Business with id "+business_id+" not found"}), 400
 
         Review(text=data["text"], business_id=business_id, user_id=user_id).add_review()
 
-        return jsonify({"success":True, "message":"Review posted successfully"}),201
+        return jsonify({"success":True, "message":"Review posted successfully"}), 201
 
-    def get_business_reviews(self, business_id):
+    @staticmethod
+    def get_business_reviews(business_id):
         """ get a business reviews """
         return Review.get_business_reviews(business_id)
         

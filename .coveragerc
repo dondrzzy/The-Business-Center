@@ -1,0 +1,7 @@
+[run]
+omit = app/apidocs/* 
+    __init__.py/* 
+    app/tests/*
+
+[html]
+directory = coverage_html_report

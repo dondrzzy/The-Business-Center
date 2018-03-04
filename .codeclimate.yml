@@ -2,3 +2,4 @@
 exclude_patterns:
 - "app/static/"
 - "app/templates/"
+- "app/apidocs/"
