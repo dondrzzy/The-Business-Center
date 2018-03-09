@@ -2,6 +2,7 @@
 from sqlalchemy import ForeignKey
 from app import db
 from app import jsonify
+from app.models.user import User
 
 # from app.model import Business
 class Business(db.Model):
@@ -11,16 +12,36 @@ class Business(db.Model):
     name = db.Column(db.String(50), nullable=False)
     category = db.Column(db.String(100), nullable=False)
     location = db.Column(db.String(80), nullable=False)
+    user = db.relationship(User, backref='business')
 
     def register_business(self):
         """ registers a business """
         db.session.add(self)
         db.session.commit()
 
+
     @staticmethod
-    def get_all_businesses():
+    def get_businesses(page, limit, search_string, location, category):
         """ returns all businesses"""
-        businesses = Business.query.all()
+        filters = {}
+        # generate filters
+        if location is not None:
+            filters["location"] = location
+        if category is not None:
+            filters["category"] = category
+
+        result = Business.query
+
+
+        if search_string is not None:
+            result = result.filter(Business.name.like("%"+search_string+"%"))
+
+        if bool(filters):
+            result = result.filter_by(**filters)
+
+        paginate = result.paginate(page, limit, False)
+
+        businesses = paginate.items
         output = []
         for business in businesses:
             business_object = {
@@ -28,10 +49,14 @@ class Business(db.Model):
                 'name':business.name,
                 'category':business.category,
                 'location':business.location,
-                'user_id':business.user_id
+                'user':business.user.name
             }
             output.append(business_object)
-        return {"businesses":output}
+        next_page = paginate.next_num \
+            if paginate.has_next else None
+        prev_page = paginate.prev_num \
+            if paginate.has_prev else None
+        return {"success":True, "businesses":output, "next_page":next_page, "prev_page":prev_page}
 
     @staticmethod
     def get_business(business_id):

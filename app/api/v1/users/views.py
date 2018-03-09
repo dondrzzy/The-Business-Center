@@ -15,7 +15,7 @@ USERS_BLUEPRINT = Blueprint(
 )
 
 # routes
-@USERS_BLUEPRINT.route('/api/v1/auth/register', methods=['POST'])
+@USERS_BLUEPRINT.route('/register', methods=['POST'])
 def register():
     """" register a user route """
     data = request.get_json()
@@ -23,7 +23,7 @@ def register():
 
     return result
 
-@USERS_BLUEPRINT.route('/api/v1/auth/login', methods=['POST'])
+@USERS_BLUEPRINT.route('/login', methods=['POST'])
 def login():
     """login route """
     data = request.get_json()
@@ -41,25 +41,22 @@ def login():
 
 
 
-@USERS_BLUEPRINT.route('/api/v1/auth/logout', methods=['GET'])
+@USERS_BLUEPRINT.route('/logout', methods=['GET'])
 def logout():
     """ logout route """
-    token = None
-
+    _token = None
     if 'x-access-token' in request.headers:
-        token = request.headers['x-access-token']
-
-    if not token:
-        return jsonify({'success':False, 'token':False, 'message':'Token is missing'}), 401
-
+        _token = request.headers['x-access-token']
+    if not _token:
+        return jsonify({'success':False, 'message':'Token is missing', 'token':False}), 401
     try:
-        jwt.decode(token, app.config['SECRET_KEY'])
+        jwt.decode(_token, app.config['SECRET_KEY'])
     except:
-        return jsonify({'success':False, 'token':False, 'message':'Token is invalid'}), 401
+        return jsonify({'success':False, 'message':'Token is invalid', 'token':False}), 401
 
-    return jsonify(TS.blacklist(token)), 200
+    return jsonify(TS.blacklist(_token)), 200
 
-@USERS_BLUEPRINT.route('/api/v1/auth/reset-password', methods=['POST'])
+@USERS_BLUEPRINT.route('/reset-password', methods=['POST'])
 def reset_password():
     """ reset a password """
     data = request.get_json()

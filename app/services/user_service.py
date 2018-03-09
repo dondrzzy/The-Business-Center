@@ -2,7 +2,7 @@
 import datetime
 import jwt
 from passlib.hash import sha256_crypt
-from app import jsonify
+from flask import jsonify
 from app import app
 from app.models.user import User
 from app.services.token_service import TokenService

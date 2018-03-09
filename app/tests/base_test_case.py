@@ -1,6 +1,7 @@
 """ docs for testing api module """
 from passlib.hash import sha256_crypt
-from flask.ext.testing import TestCase
+from flask_testing import TestCase
+# from flask.ext.testing import TestCase
 from app import app, db
 from app.config import CONF
 from app.models.user import User

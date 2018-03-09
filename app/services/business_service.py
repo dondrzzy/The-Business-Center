@@ -1,6 +1,6 @@
 """docstring for Business Controller"""
+from flask import jsonify
 from app.models.business import Business
-from app import jsonify
 
 
 class BusinessService(object):
@@ -19,11 +19,11 @@ class BusinessService(object):
             return jsonify({"success":True, "message":"Business Created"}), 201
         return jsonify(result), 400
 
-    # get all businesses
+    # paginante businesses
     @staticmethod
-    def get_all_businesses():
-        """docstring for get all business"""
-        return Business.get_all_businesses()
+    def get_businesses(page, limit, search_string, location, category):
+        """docstring for paginating through the business"""
+        return Business.get_businesses(page, limit, search_string, location, category)
 
 
     def update_business(self, user_id, business_id, business):
@@ -43,17 +43,15 @@ class BusinessService(object):
     @staticmethod
     def get_business(business_id):
         """docstring for get business"""
-        if business_id.isdigit():
-            return Business.get_business(business_id)
-        return {"success":False, "message":"Invalid business id"}
+        # if business_id.isdigit():
+        return Business.get_business(business_id)
+        # return {"success":False, "message":"Invalid business id"}
 
     # delete business
     @staticmethod
     def delete_business(business_id, user_id):
         """docstring for delete business"""
-        if business_id.isdigit():
-            return Business.delete_business(business_id, user_id)
-        return jsonify({"success":False, "message":"Invalid business id"}), 400
+        return Business.delete_business(business_id, user_id)
 
     @staticmethod
     def check_req_fields(_object, fields):
