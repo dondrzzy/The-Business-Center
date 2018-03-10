@@ -56,7 +56,7 @@ class TestUserEndpoints(BaseTestCase):
                                     content_type='application/json')
         json_response = json.loads(response.data.decode('utf-8'))
         self.assertFalse(json_response['success'])
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 404)
 
     def test_login_success(self):
         """ docs for testing login failure """

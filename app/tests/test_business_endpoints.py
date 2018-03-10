@@ -53,7 +53,7 @@ class TestBusinessEndpoints(BaseTestCase):
         """ docs for testing get all businesses, no businesses currently"""
         response = self.client.get('/api/v1/businesses', content_type='application/json')
         json_response = json.loads(response.data.decode('utf-8'))
-        self.assertTrue(json_response['success'])
+        self.assertFalse(json_response['success'])
         self.assertEqual(len(json_response['businesses']), 0)
 
     def test_get_all_business(self):
@@ -79,7 +79,7 @@ class TestBusinessEndpoints(BaseTestCase):
         """ test whether result is paginated """
         token = self.login_test_user()
         self.create_test_business(token)
-        response = self.client.get('/api/v1/businesses', content_type='application/json')
+        response = self.client.get('/api/v1/businesses')
         json_response = json.loads(response.data.decode('utf-8'))
         self.assertTrue(json_response['success'])
         self.assertIn(b'next_page', response.data)
@@ -89,7 +89,7 @@ class TestBusinessEndpoints(BaseTestCase):
         response = self.client.get('/api/v1/businesses/hfhfh')
         json_response = json.loads(response.data.decode('utf-8'))
         self.assertFalse(json_response['success'])
-        self.assertEqual(json_response['message'], "Invalid business id")
+        self.assertEqual(json_response['message'], "Invalid business Id")
 
     def test_get_unknown_business_fail(self):
         """ docs for testing getting invalid business """

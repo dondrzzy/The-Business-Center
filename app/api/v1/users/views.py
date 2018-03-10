@@ -33,11 +33,9 @@ def login():
         token = request.headers['x-access-token']
         # check if logged already
         if US.user_logged_in(token, data):
-            return jsonify({"success":False, "message":"Already logged in... Redirecting"})
+            return jsonify({"success":False, "message":"Already logged in... Redirecting"}), 200
 
-    result = US.login_user(data)
-
-    return result
+    return US.login_user(data)
 
 
 
@@ -52,7 +50,7 @@ def logout():
     try:
         jwt.decode(_token, app.config['SECRET_KEY'])
     except:
-        return jsonify({'success':False, 'message':'Token is invalid', 'token':False}), 401
+        return jsonify({'success':False, 'message':'Token is invalid', 'token':False}), 422
 
     return jsonify(TS.blacklist(_token)), 200
 

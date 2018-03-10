@@ -21,17 +21,10 @@ class Business(db.Model):
 
 
     @staticmethod
-    def get_businesses(page, limit, search_string, location, category):
-        """ returns all businesses"""
-        filters = {}
-        # generate filters
-        if location is not None:
-            filters["location"] = location
-        if category is not None:
-            filters["category"] = category
+    def get_businesses(page, limit, search_string, filters):
+        """ returns all businesses"""       
 
         result = Business.query
-
 
         if search_string is not None:
             result = result.filter(Business.name.like("%"+search_string+"%"))
@@ -56,7 +49,9 @@ class Business(db.Model):
             if paginate.has_next else None
         prev_page = paginate.prev_num \
             if paginate.has_prev else None
-        return {"success":True, "businesses":output, "next_page":next_page, "prev_page":prev_page}
+        if len(output) > 0:
+            return {"success":True, "businesses":output, "next_page":next_page, "prev_page":prev_page}
+        return {"success":False, "businesses":output}
 
     @staticmethod
     def get_business(business_id):
@@ -78,7 +73,7 @@ class Business(db.Model):
         business = Business.query.filter_by(id=business_id).first()
         if not business:
             return jsonify({"success":False,
-                            "message":"Business with id "+business_id+" not found"}), 400
+                            "message":"Business with id "+business_id+" not found"}), 404
 
         if business.user_id != user_id:
             return jsonify({"success":False, "message":"You can not perform that action"}), 401
@@ -103,7 +98,7 @@ class Business(db.Model):
         business = Business.query.filter_by(id=business_id).first()
         if not business:
             return jsonify({"success":False,
-                            "message":"Business with id "+business_id+" not found"}), 400
+                            "message":"Business with id "+business_id+" not found"}), 404
             # check owner
         if business.user_id != user_id:
             return jsonify({"success":False,
