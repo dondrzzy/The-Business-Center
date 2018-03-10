@@ -60,7 +60,7 @@ class User(db.Model):
         """ docstsing for resetting db password """
         user = User.query.filter_by(email=_user["email"]).first()
         if not user:
-            return jsonify({"success":False, "message":"User not found"})
+            return jsonify({"success":False, "message":"User not found"}), 404
         user.password = _user["password"]
         db.session.commit()
         return jsonify({"success":True, "message":"Password reset successfully"}), 200

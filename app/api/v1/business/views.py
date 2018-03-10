@@ -1,6 +1,7 @@
 """ business routes """
 from flask import request, jsonify, Blueprint
-from app import is_logged_in
+from app import app
+from app.services.decorator_services import is_logged_in, valid_business_id
 from app.services.business_service import BusinessService
 BS = BusinessService()
 
@@ -9,32 +10,42 @@ BUSINESS_BLUEPRINT = Blueprint(
     'business', __name__
 )
 
-# register a business
-@BUSINESS_BLUEPRINT.route('/api/v1/businesses', methods=['POST'])
+
+@BUSINESS_BLUEPRINT.route('/businesses', methods=['POST'])
 @is_logged_in
 def register_business(current_user):
     """ register a business route """
     business = request.get_json()
 
-    result = BS.register_business(int(current_user), business)
-
-    return result
+    return BS.register_business(int(current_user), business)
 
 
-# get all businesses
-@BUSINESS_BLUEPRINT.route('/api/v1/businesses')
-def get_all_businesses():
-    """ get all businesses route """
-    return jsonify({"success":True, "businesses":BS.get_all_businesses()["businesses"]}), 200
+@BUSINESS_BLUEPRINT.route('/businesses')
+def get_businesses():
+    """
+    get businesses, search by name, filter by location, categoory
+    paginate result
+    """
+    search_string = request.args.get('q', None)
+    location = request.args.get('location', None)
+    category = request.args.get('category', None)
 
-# get single business businesses
-@BUSINESS_BLUEPRINT.route('/api/v1/businesses/<business_id>')
+    # get page nuumber
+    page = request.args.get('page', 1, type=int)
+    limit = request.args.get('limit', app.config["BUSINESSES_PER_PAGE"], type=int)
+
+    return BS.get_businesses(page, limit, search_string, location, category)
+
+
+@BUSINESS_BLUEPRINT.route('/businesses/<business_id>')
+@valid_business_id
 def get_business(business_id):
     """ get a business route """
-    return jsonify(BS.get_business(business_id))
+    return BS.get_business(business_id)
 
 
-@BUSINESS_BLUEPRINT.route('/api/v1/businesses/<business_id>', methods=['PUT'])
+@BUSINESS_BLUEPRINT.route('/businesses/<business_id>', methods=['PUT'])
+@valid_business_id
 @is_logged_in
 def update_business(current_user, business_id):
     """update a business route """
@@ -43,7 +54,8 @@ def update_business(current_user, business_id):
     return BS.update_business(current_user, business_id, data)
 
 
-@BUSINESS_BLUEPRINT.route('/api/v1/businesses/<business_id>', methods=['DELETE'])
+@BUSINESS_BLUEPRINT.route('/businesses/<business_id>', methods=['DELETE'])
+@valid_business_id
 @is_logged_in
 def delete_business(current_user, business_id):
     """ delete a business route"""

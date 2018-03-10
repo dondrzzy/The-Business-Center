@@ -2,7 +2,7 @@
 import datetime
 import jwt
 from passlib.hash import sha256_crypt
-from app import jsonify
+from flask import jsonify
 from app import app
 from app.models.user import User
 from app.services.token_service import TokenService
@@ -24,13 +24,13 @@ class UserService(object):
 
             # check if email exists
             if User.email_exists(data["email"])["success"]:
-                return jsonify({"success":False, "message":"Email already exists"}), 400
+                return jsonify({"success":False, "message":"Email already exists"}), 422
 
             # create user
             User(name=data["name"], email=data["email"],
                  password=sha256_crypt.encrypt(str(data["password"]))).register()
             return jsonify({"success":True, "message":"Account created successfully"}), 201
-        return jsonify(result), 400
+        return jsonify(result), 422
 
     # login user
     def login_user(self, data):
@@ -55,10 +55,10 @@ class UserService(object):
 
                     return jsonify({"success":True, "token":token.decode('UTF-8')}), 200
 
-                return jsonify({"success":False, "message":"Incorrect username or password"}), 400
+                return jsonify({"success":False, "message":"Incorrect username or password"}), 422
 
-            return jsonify({"success":False, "message":"User not found"}), 400
-        return jsonify(result), 400
+            return jsonify({"success":False, "message":"User not found"}), 404
+        return jsonify(result), 422
 
     # reset password
     def reset_password(self, data):
@@ -77,7 +77,7 @@ class UserService(object):
             }
 
             return User.reset_password(user_object)
-        return jsonify(result), 400
+        return jsonify(result), 422
 
     @staticmethod
     def get_user(user_id):

@@ -4,6 +4,21 @@ from .base_test_case import BaseTestCase
 
 class TestBusinessEndpoints(BaseTestCase):
     """docs for test business endpoints """
+
+    def login_test_user(self):
+        """ login test user"""
+        data = json.dumps(dict(email='test@gmail.com', password='1234'))
+        response = self.client.post('/api/v1/auth/login', data=data,
+                                    content_type='application/json')
+        return json.loads(response.data.decode('utf-8'))["token"]
+
+    def create_test_business(self, token):
+        """ create business for testing endpoints """
+        data = json.dumps(dict(name="Business", category="IT", location="Kampala"))
+        self.client.post('/api/v1/businesses', data=data,
+                         headers={'x-access-token':token},
+                         content_type='application/json')
+
     def test_business_token_required(self):
         """ docs for testing create business fail if not logged in """
         data = json.dumps(dict(name="Business", category="IT", location="Kampala"))
@@ -38,7 +53,7 @@ class TestBusinessEndpoints(BaseTestCase):
         """ docs for testing get all businesses, no businesses currently"""
         response = self.client.get('/api/v1/businesses', content_type='application/json')
         json_response = json.loads(response.data.decode('utf-8'))
-        self.assertTrue(json_response['success'])
+        self.assertFalse(json_response['success'])
         self.assertEqual(len(json_response['businesses']), 0)
 
     def test_get_all_business(self):
@@ -59,12 +74,22 @@ class TestBusinessEndpoints(BaseTestCase):
         self.assertTrue(json_response['success'])
         self.assertEqual(len(json_response['businesses']), 1)
 
+
+    def test_pagination(self):
+        """ test whether result is paginated """
+        token = self.login_test_user()
+        self.create_test_business(token)
+        response = self.client.get('/api/v1/businesses')
+        json_response = json.loads(response.data.decode('utf-8'))
+        self.assertTrue(json_response['success'])
+        self.assertIn(b'next_page', response.data)
+
     def test_get_invalid_business_fail(self):
         """ docs for testing getting invalid business """
         response = self.client.get('/api/v1/businesses/hfhfh')
         json_response = json.loads(response.data.decode('utf-8'))
         self.assertFalse(json_response['success'])
-        self.assertEqual(json_response['message'], "Invalid business id")
+        self.assertEqual(json_response['message'], "Invalid business Id")
 
     def test_get_unknown_business_fail(self):
         """ docs for testing getting invalid business """

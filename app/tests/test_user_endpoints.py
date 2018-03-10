@@ -56,7 +56,7 @@ class TestUserEndpoints(BaseTestCase):
                                     content_type='application/json')
         json_response = json.loads(response.data.decode('utf-8'))
         self.assertFalse(json_response['success'])
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 404)
 
     def test_login_success(self):
         """ docs for testing login failure """
@@ -120,11 +120,19 @@ class TestUserEndpoints(BaseTestCase):
         json_response = json.loads(response.data.decode('utf-8'))
         headers = {'x-access-token':json_response["token"]}
         # logout
-        response = self.client.get('/api/v1/auth/logout',
+        resp = self.client.get('/api/v1/auth/logout',
                                    headers=headers, content_type='application/json')
-        json_response = json.loads(response.data.decode('utf-8'))
-        self.assertTrue(json_response['success'])
-        self.assertEqual(json_response["message"], "Your are logged out")
+        json_resp = json.loads(resp.data.decode('utf-8'))
+        # try creating business
+        _data = json.dumps(dict(name="Business", category="IT", location="Kampala"))
+        _resp = self.client.post('/api/v1/businesses', data=_data,
+                         headers=headers,
+                         content_type='application/json')
+        _json_resp = json.loads(_resp.data.decode('utf-8'))
+        self.assertTrue(json_resp['success'])
+        self.assertEqual(json_resp["message"], "Your are logged out")
+        self.assertFalse(_json_resp['success'])
+        self.assertEqual(_json_resp["message"], "Token is invalid, Please login")
 
     def test_user_logged_in(self):
         """ test a user who is already logged in """

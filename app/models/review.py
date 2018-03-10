@@ -1,9 +1,9 @@
 """ docstring for review controller """
 from sqlalchemy import ForeignKey
-from app import jsonify
 from app import db
-from app.services.user_service import UserService
-US = UserService()
+from app.models.user import User
+from app.models.business import Business
+
 
 
 class Review(db.Model):
@@ -12,6 +12,8 @@ class Review(db.Model):
     text = db.Column(db.String(150), nullable=False)
     business_id = db.Column(db.Integer, ForeignKey('business.id'), nullable=False)
     user_id = db.Column(db.Integer, ForeignKey('user.id'), nullable=False)
+    user = db.relationship(User, backref='review')
+    business = db.relationship(Business, backref='review')
 
 
     def add_review(self):
@@ -24,13 +26,13 @@ class Review(db.Model):
         """ return all reviews attached to this business """
         reviews = Review.query.filter_by(business_id=business_id).all()
         if not reviews:
-            return jsonify({"success":True, "msg":"No Business Reviews"}), 200
+            return {"success":False, "msg":"No Business Reviews"}
         output = []
         for review in reviews:
             review_object = {
                 'id':review.id,
                 'text':review.text,
-                'user':US.get_user(review.user_id)["user"]
+                'user':review.user.name
             }
             output.append(review_object)
-        return jsonify({"success":True, "reviews":output}), 200
+        return {"success":True, "reviews":output}
