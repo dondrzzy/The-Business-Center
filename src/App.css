@@ -1,0 +1,44 @@
+html{
+    height: 100%;
+}
+
+#main.container{
+  margin-top: 60px;
+}
+.navbar .nav-link{
+  font-size: 12px;
+  text-transform: capitalize;
+  font-weight: 400;
+}
+.jumbotron{
+    background: #eee;
+}
+footer{
+  /*position:fixed;*/
+  bottom:0;
+  left:0;
+  right:0;
+}
+footer hr{
+  margin-top:0;
+}
+
+.Home a:first-child{
+  margin-right:5px;
+}
+.SignIn, .SignUp{
+  max-width:420px;
+}
+.wasValidated .feedback{
+  display: block !important;
+}
+/*business-item*/
+.business-item .card-header{
+  background-color:#6c757d!important;
+}
+.card h4, .card a{
+  color: #fff;
+}
+.card button{
+  text-transform: capitalize;
+}

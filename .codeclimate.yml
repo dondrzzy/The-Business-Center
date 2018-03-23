@@ -1,5 +1,0 @@
-## other configuration excluded from example...
-exclude_patterns:
-- "app/static/"
-- "app/templates/"
-- "app/apidocs/"
