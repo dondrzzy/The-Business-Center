@@ -3,6 +3,7 @@ import os
 import jwt
 from flasgger import Swagger
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from app.apidocs import Apidocs
 from app.config import CONF
@@ -10,8 +11,13 @@ from app.config import CONF
 
 # Flask-SQLAlchemy: Initialize
 app = Flask(__name__)
-app.config['SWAGGER'] = Apidocs.swagger_conf
-swagger = Swagger(app)
+
+# Enabling cors
+CORS(app)
+
+# app.config['supports_credentials'] = True
+# app.config['SWAGGER'] = Apidocs.swagger_conf
+# swagger = Swagger(app)
 
 #Configuration Parameters for the app environment
 ENV = os.getenv("ENVIRON", 'testing')

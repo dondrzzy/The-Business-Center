@@ -34,6 +34,23 @@ class BusinessService(object):
             return jsonify(res), 200
         return jsonify(res), 404
 
+    # paginante user businesses
+    @staticmethod
+    def get_user_businesses(page, limit, search_string, location, category, user_id):
+        """docstring for paginating through the business"""
+        filters = {}
+        # generate filters
+        if location is not None:
+            filters["location"] = location
+        if category is not None:
+            filters["category"] = category
+        if user_id is not None:
+            filters["user_id"] = user_id
+        res = Business.get_businesses(page, limit, search_string, filters)
+        if res["success"]:
+            return jsonify(res), 200
+        return jsonify(res), 404
+
 
     def update_business(self, user_id, business_id, business):
         """docstring for updating a business"""

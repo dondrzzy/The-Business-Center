@@ -36,6 +36,23 @@ def get_businesses():
 
     return BS.get_businesses(page, limit, search_string, location, category)
 
+@BUSINESS_BLUEPRINT.route('/users/businesses')
+@is_logged_in
+def get_user_businesses(current_user):
+    """
+    get businesses for a specific user, search by name, filter by location, categoory
+    paginate result
+    """
+    search_string = request.args.get('q', None)
+    location = request.args.get('location', None)
+    category = request.args.get('category', None)
+
+    # get page nuumber
+    page = request.args.get('page', 1, type=int)
+    limit = request.args.get('limit', app.config["BUSINESSES_PER_PAGE"], type=int)
+
+    return BS.get_user_businesses(page, limit, search_string, location, category, current_user)
+
 
 @BUSINESS_BLUEPRINT.route('/businesses/<business_id>')
 @valid_business_id
