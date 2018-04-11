@@ -15,9 +15,9 @@ app = Flask(__name__)
 # Enabling cors
 CORS(app)
 
-# app.config['supports_credentials'] = True
-# app.config['SWAGGER'] = Apidocs.swagger_conf
-# swagger = Swagger(app)
+app.config['supports_credentials'] = True
+app.config['SWAGGER'] = Apidocs.swagger_conf
+swagger = Swagger(app)
 
 #Configuration Parameters for the app environment
 ENV = os.getenv("ENVIRON", 'testing')

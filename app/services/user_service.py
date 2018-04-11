@@ -1,6 +1,8 @@
 """ docstring for user controller"""
 import datetime
 import jwt
+import re
+from validate_email import validate_email
 from passlib.hash import sha256_crypt
 from flask import jsonify
 from app import app
@@ -21,15 +23,18 @@ class UserService(object):
         result = self.check_req_fields(data, fields, True)
 
         if result["success"]:
+            # validate user emails
+            valid_input_res = self.validate_user_input(data)
+            if valid_input_res["success"]:
+                # check if email exists
+                if User.email_exists(data["email"])["success"]:
+                    return jsonify({"success":False, "message":"Email already exists"}), 422
 
-            # check if email exists
-            if User.email_exists(data["email"])["success"]:
-                return jsonify({"success":False, "message":"Email already exists"}), 422
-
-            # create user
-            User(name=data["name"], email=data["email"],
-                 password=sha256_crypt.encrypt(str(data["password"]))).register()
-            return jsonify({"success":True, "message":"Account created successfully"}), 201
+                # create user
+                User(name=data["name"], email=data["email"],
+                     password=sha256_crypt.encrypt(str(data["password"]))).register()
+                return jsonify({"success":True, "message":"Account created successfully"}), 201
+            return jsonify(valid_input_res)
         return jsonify(result), 422
 
     # login user
@@ -70,13 +75,16 @@ class UserService(object):
         fields = ['email', 'password', 'confirm_password']
         result = self.check_req_fields(data, fields, True)
         if result["success"]:
+            # validate user input
+            valid_input_res = self.validate_user_input(data)
+            if valid_input_res["success"]:
+                user_object = {
+                    "email" : data["email"],
+                    "password" : sha256_crypt.encrypt(str(data["password"]))
+                }
 
-            user_object = {
-                "email" : data["email"],
-                "password" : sha256_crypt.encrypt(str(data["password"]))
-            }
-
-            return User.reset_password(user_object)
+                return User.reset_password(user_object)
+            return jsonify(valid_input_res)
         return jsonify(result), 422
 
     @staticmethod
@@ -112,4 +120,25 @@ class UserService(object):
         if comp_pwds:
             if _object["password"] != _object["confirm_password"]:
                 return {"success":False, "message":"passwords do not match"}
+        return {"success":True}
+
+    def validate_user_input(self, data):
+        """ validate user''s name, email, password strength """
+        # validate name
+        if 'name' in data:
+            if not bool(re.fullmatch('[A-Za-z]{2,25}( [A-Za-z]{2,25})?', data["name"])):
+                return { "success":False, "message":"Invalid name"}
+
+        # validate email
+        if 'email' in data:
+            if not validate_email(data["email"]):
+                return { "success":False, "message":"Invalid email"}
+
+        # validate password
+        if 'password' in data:
+            if not re.match('^(?=.*?[a-z])(?=.*?[\d])(?=.*?[\W]).{6,35}$', data["password"]):
+                return { "success":False, "message":"Password should have 6 - 35 characters, "
+                          "Include alphanumeric characters and upper case letters"
+                }
+
         return {"success":True}

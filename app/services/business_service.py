@@ -1,4 +1,5 @@
 """docstring for Business Controller"""
+import re
 from flask import jsonify
 from app.models.business import Business
 
@@ -14,9 +15,12 @@ class BusinessService(object):
         fields = ["name", "category", "location"]
         result = self.check_req_fields(business, fields)
         if result["success"]:
-            Business(user_id=user_id, name=business["name"], category=business["category"],
-                     location=business["location"]).register_business()
-            return jsonify({"success":True, "message":"Business Created"}), 201
+            valid_input_res = self.validate_business_input(business)
+            if valid_input_res["success"]:
+                Business(user_id=user_id, name=business["name"], category=business["category"],
+                         location=business["location"]).register_business()
+                return jsonify({"success":True, "message":"Business Created"}), 201
+            return jsonify(valid_input_res), 422
         return jsonify(result), 422
 
     # paginante businesses
@@ -53,16 +57,28 @@ class BusinessService(object):
 
 
     def update_business(self, user_id, business_id, business):
-        """docstring for updating a business"""
+        """
+        docstring for updating a business
+        get the businessId of the business to update
+        get userId of user requesting to update
+        check if all required field have been passed
+        validate the user input
+        check for updating authority
+        update the business
+
+        """
         fields = ["name", "category", "location"]
         result = self.check_req_fields(business, fields)
         if result["success"]:
-            business_object = {
-                "name" : business["name"],
-                "category" : business["category"],
-                "location" : business["location"]
-            }
-            return Business.update_business(user_id, business_id, business_object)
+            valid_input_res = self.validate_business_input(business)
+            if valid_input_res["success"]:
+                business_object = {
+                    "name" : business["name"],
+                    "category" : business["category"],
+                    "location" : business["location"]
+                }
+                return Business.update_business(user_id, business_id, business_object)
+            return jsonify(valid_input_res), 422
         return jsonify(result), 422
 
     # get single bsuiness
@@ -92,4 +108,21 @@ class BusinessService(object):
         for field in fields:
             if field not in _object:
                 return {"success":False, "message":"Business "+field +" ('"+field+ "') is required"}
+        return {"success":True}
+
+    def validate_business_input(self, data):
+        """ vaidate business input for empty and invalid fields """
+        if 'name' in data:
+            if not bool(re.fullmatch('[A-Za-z]{2,25}( [A-Za-z]{2,25})?', data["name"])):
+                return { "success":False, "message":"Invalid business name"}
+        # validate email
+        if 'category' in data:
+            if not bool(re.fullmatch('[A-Za-z]{2,25}( [A-Za-z]{2,25})?', data["category"])):
+                return { "success":False, "message":"Invalid business category"}
+
+        # validate password
+        if 'location' in data:
+            if not bool(re.fullmatch('[A-Za-z]{2,25}( [A-Za-z]{2,25})?', data["location"])):
+                return { "success":False, "message":"Invalid business location"}
+
         return {"success":True}
