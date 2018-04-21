@@ -7,10 +7,6 @@ class Define(object):
         return {
             "type" : "object",
             "properties" : {
-              "id" : {
-                "type" : "integer",
-                "format" : "int64"
-              },
               "name" : {
                 "type" : "string"
               },
@@ -19,17 +15,13 @@ class Define(object):
               },
               "password" : {
                 "type" : "string"
-              },
-              "confirm password" : {
-                "type" : "string"
               }
             },
-            "example" : {
-              "password" : "password",
-              "confirm password" : "confirm password",
+            "example" : {              
               "name" : "name",
-              "id" : 0,
-              "email" : "email"
+              "email" : "name@gmail.com",
+              "password" : "#name@2000",
+              "confirm_password" : "#name@2000"
             },
             "xml" : {
               "name" : "User"
@@ -40,14 +32,6 @@ class Define(object):
         return {
             "type" : "object",
             "properties" : {
-              "id" : {
-                "type" : "integer",
-                "format" : "int64"
-              },
-              "userId" : {
-                "type" : "integer",
-                "format" : "int64"
-              },
               "name" : {
                 "type" : "string",
                 "description" : "Business name"
@@ -64,9 +48,7 @@ class Define(object):
             "example" : {
               "name" : "name",
               "location" : "location",
-              "id" : 0,
-              "category" : "category",
-              "userId" : 6
+              "category" : "category"
             },
             "xml" : {
               "name" : "Business"
@@ -95,10 +77,7 @@ class Define(object):
               }
             },
             "example" : {
-              "businessId" : 1,
-              "id" : 0,
-              "text" : "text",
-              "userId" : 6
+              "text" : "text"
             },
             "xml" : {
               "name" : "Review"

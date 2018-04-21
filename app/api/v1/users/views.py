@@ -50,7 +50,7 @@ def logout():
     try:
         jwt.decode(_token, app.config['SECRET_KEY'])
     except:
-        return jsonify({'success':False, 'message':'Token is invalid', 'token':False}), 422
+        return jsonify({'success':False, 'message':'Token is invalid', 'token':False}), 401
 
     return jsonify(TS.blacklist(_token)), 200
 

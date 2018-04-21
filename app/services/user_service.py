@@ -1,8 +1,8 @@
 """ docstring for user controller"""
 import datetime
-import jwt
 import re
-from validate_email import validate_email
+import jwt
+from email_validator import validate_email, EmailNotValidError
 from passlib.hash import sha256_crypt
 from flask import jsonify
 from app import app
@@ -27,14 +27,14 @@ class UserService(object):
             valid_input_res = self.validate_user_input(data)
             if valid_input_res["success"]:
                 # check if email exists
-                if User.email_exists(data["email"])["success"]:
-                    return jsonify({"success":False, "message":"Email already exists"}), 422
-
-                # create user
-                User(name=data["name"], email=data["email"],
-                     password=sha256_crypt.encrypt(str(data["password"]))).register()
-                return jsonify({"success":True, "message":"Account created successfully"}), 201
-            return jsonify(valid_input_res)
+                user = User.email_exists(data)
+                if not user:
+                    # create user
+                    User(name=data["name"], email=data["email"],
+                         password=sha256_crypt.encrypt(str(data["password"]))).register()
+                    return jsonify({"success":True, "message":"Account created successfully"}), 201
+                return jsonify({"success":False, "message":"Email already exists"}), 409
+            return jsonify(valid_input_res), 422
         return jsonify(result), 422
 
     # login user
@@ -45,24 +45,23 @@ class UserService(object):
         if result["success"]:
 
             # check if email exists in the db
-            user_result = User.is_member(data)
+            user = User.email_exists(data)
+            if not user:
+                return jsonify({"success":False, "message":"User not found"}), 404
 
             # If user found, confirm passwords and create token
-            if user_result["success"]:
-                member = user_result["user"]
-                # check if passwords match
-                if sha256_crypt.verify(data["password"], member["password"]):
-                    token = jwt.encode(
-                        {
-                            'uid':member["id"],
-                            'exp': datetime.datetime.utcnow()+datetime.timedelta(minutes=60)
-                        }, app.config['SECRET_KEY'])
+            # check if passwords match
+            if sha256_crypt.verify(data["password"], user.password):
+                token = jwt.encode(
+                    {
+                        'uid':user.id,
+                        'exp': datetime.datetime.utcnow()+datetime.timedelta(minutes=60)
+                    }, app.config['SECRET_KEY'])
 
-                    return jsonify({"success":True, "token":token.decode('UTF-8')}), 200
+                return jsonify({"success":True, "token":token.decode('UTF-8')}), 200
 
-                return jsonify({"success":False, "message":"Incorrect username or password"}), 422
+            return jsonify({"success":False, "message":"Incorrect username or password"}), 401
 
-            return jsonify({"success":False, "message":"User not found"}), 404
         return jsonify(result), 422
 
     # reset password
@@ -78,19 +77,18 @@ class UserService(object):
             # validate user input
             valid_input_res = self.validate_user_input(data)
             if valid_input_res["success"]:
+                user = User.email_exists(data)
+                if not user:
+                    return jsonify({"success":False, "message":"User not found"}), 404
                 user_object = {
                     "email" : data["email"],
                     "password" : sha256_crypt.encrypt(str(data["password"]))
                 }
 
-                return User.reset_password(user_object)
-            return jsonify(valid_input_res)
+                User.reset_password(user_object)
+                return jsonify({"success":True, "message":"Password reset successfully"}), 200
+            return jsonify(valid_input_res), 422
         return jsonify(result), 422
-
-    @staticmethod
-    def get_user(user_id):
-        """ return a passed user using the user id passed """
-        return User.get_user(user_id)
 
     @staticmethod
     def user_logged_in(token, data):
@@ -103,11 +101,9 @@ class UserService(object):
             if TS.is_blacklisted(token)["success"]:
                 return False
             # get user if exists
-            result = User.get_user(current_user)
-            if result["success"]:
-                if result["user"]["email"] == data["email"]:
-                    return True
-            return False
+            user = User.get_user(current_user)
+            if user.email == data["email"]:
+                return True
         except:
             return False
 
@@ -122,23 +118,29 @@ class UserService(object):
                 return {"success":False, "message":"passwords do not match"}
         return {"success":True}
 
-    def validate_user_input(self, data):
+    @staticmethod
+    def validate_user_input(data):
         """ validate user''s name, email, password strength """
         # validate name
         if 'name' in data:
-            if not bool(re.fullmatch('[A-Za-z]{2,25}( [A-Za-z]{2,25})?', data["name"])):
-                return { "success":False, "message":"Invalid name"}
+            if not bool(re.fullmatch('[A-Za-z]{2,50}( [A-Za-z]{2,25})?', data["name"])):
+                return {"success":False, "message":"Invalid name"}
 
         # validate email
         if 'email' in data:
-            if not validate_email(data["email"]):
-                return { "success":False, "message":"Invalid email"}
+            if len(data["email"]) > 50:
+                return {"success":False,
+                        "message":"Email address should not exceed 50 characters"}
+            try:
+                validate_email(data["email"]) # validate and get info
+            except EmailNotValidError as error:
+                # email is not valid, exception message is human-readable
+                return {"success":False, "message":str(error)}
 
         # validate password
         if 'password' in data:
-            if not re.match('^(?=.*?[a-z])(?=.*?[\d])(?=.*?[\W]).{6,35}$', data["password"]):
-                return { "success":False, "message":"Password should have 6 - 35 characters, "
-                          "Include alphanumeric characters and upper case letters"
-                }
+            if not re.match('^(?=.*?[a-z])(?=.*?[\d])(?=.*?[\W]).{6,80}$', data["password"]):
+                return {"success":False, "message":"Password should have 6 - 35 characters,\
+                        Include alphanumeric characters and upper case letters"}
 
         return {"success":True}

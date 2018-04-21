@@ -8,7 +8,7 @@ class Userdocs(object):
             "post" : {
               "tags" : [ "user" ],
               "summary" : "Create user",
-              "description" : "This can only be done by anyone.",
+              "description" : "Any unregistered user can register. Required attributes include name, email and password. The password should be strong, i.e. with an upper case character, special character and/or a number and should be more than 6 characters",
               "operationId" : "createUser",
               "produces" : [ "application/json" ],
               "parameters" : [ {
@@ -21,8 +21,23 @@ class Userdocs(object):
                 }
               } ],
               "responses" : {
-                "default" : {
-                  "description" : "Account created successfully"
+                "201" : {
+                  "description" : "operation successful",
+                  "schema" : {
+                    "$ref" : "#/definitions/inline_response_201"
+                  }
+                },
+                "409" : {
+                  "description" : "operation unsuccessful, email exists",
+                  "schema" : {
+                    "$ref" : "#/definitions/inline_response_409"
+                  }
+                },
+                "422" : {
+                  "description" : "operation unsuccessful, invalid user input",
+                  "schema" : {
+                    "$ref" : "#/definitions/inline_response_422"
+                  }
                 }
               }
             }
@@ -47,13 +62,22 @@ class Userdocs(object):
               } ],
               "responses" : {
                 "200" : {
-                  "description" : "successful operation",
+                  "description" : "operation successful",
                   "schema" : {
-                    "type" : "string"
+                    "$ref" : "#/definitions/inline_response_200"
                   }
                 },
-                "400" : {
-                  "description" : "email is required/password is required"
+                "401" : {
+                  "description" : "operation unsuccessful, Wrong password",
+                  "schema" : {
+                    "$ref" : "#/definitions/inline_response_401"
+                  }
+                },
+                "404" : {
+                  "description" : "operation unsuccessful, user not found",
+                  "schema" : {
+                    "$ref" : "#/definitions/inline_response_404"
+                  }
                 }
               }
             }
@@ -76,13 +100,22 @@ class Userdocs(object):
               } ],
               "responses" : {
                 "200" : {
-                  "description" : "Password reset successfully",
+                  "description" : "operation successful, password reset successfully",
                   "schema" : {
-                    "type" : "string"
+                    "$ref" : "#/definitions/inline_response_200_1"
                   }
                 },
-                "400" : {
-                  "description" : "email is required/password is required/passwords do not match"
+                "404" : {
+                  "description" : "operation unsuccessful, user not found",
+                  "schema" : {
+                    "$ref" : "#/definitions/inline_response_404"
+                  }
+                },
+                "422" : {
+                  "description" : "operation unsuccessful, Invalid user input",
+                  "schema" : {
+                    "$ref" : "#/definitions/inline_response_422"
+                  }
                 }
               }
             }
@@ -94,10 +127,24 @@ class Userdocs(object):
               "summary" : "Logs out current logged in user",
               "operationId" : "logoutUser",
               "produces" : [ "application/json" ],
-              "parameters" : [ ],
+              "parameters" : [{
+                "in" : "header",
+                "name" : "x-access-token",
+                "description" : "Authorization token",
+                "required" : True
+              } ],
               "responses" : {
-                "default" : {
-                  "description" : "successful operation"
+                "200" : {
+                  "description" : "operation successful",
+                  "schema" : {
+                    "$ref" : "#/definitions/inline_response_200_2"
+                  }
+                },
+                "401" : {
+                  "description" : "operation successful, invalid token",
+                  "schema" : {
+                    "$ref" : "#/definitions/inline_response_401_1"
+                  }
                 }
               }
             }

@@ -24,7 +24,13 @@ class Reviewdocs(object):
                 "200" : {
                   "description" : "operation successful",
                   "schema" : {
-                    "$ref" : "#/definitions/inline_response_200_3"
+                    "$ref" : "#/definitions/inline_response_200_6"
+                  }
+                },
+                "404" : {
+                  "description" : "operation unsuccessful",
+                  "schema" : {
+                    "$ref" : "#/definitions/inline_response_404_1"
                   }
                 }
               }
@@ -51,12 +57,30 @@ class Reviewdocs(object):
                 "schema" : {
                   "$ref" : "#/definitions/Review"
                 }
+              },
+              {
+                "in" : "header",
+                "name" : "x-access-token",
+                "description" : "Authorization token",
+                "required" : True
               } ],
               "responses" : {
-                "200" : {
+                "201" : {
                   "description" : "operation successful",
                   "schema" : {
-                    "$ref" : "#/definitions/inline_response_200_4"
+                    "$ref" : "#/definitions/inline_response_201_1"
+                  }
+                },
+                "401" : {
+                  "description" : "operation successful,",
+                  "schema" : {
+                    "$ref" : "#/definitions/inline_response_401_1"
+                  }
+                },
+                "404" : {
+                  "description" : "operation unsuccessful, incorrect business id",
+                  "schema" : {
+                    "$ref" : "#/definitions/inline_response_404_2"
                   }
                 }
               }

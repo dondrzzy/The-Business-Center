@@ -24,7 +24,7 @@ class BaseTestCase(TestCase):
         db.drop_all()
         db.create_all()
         db.session.add(User(name='test', email='test@gmail.com',
-                            password=sha256_crypt.encrypt(str('1234'))))
+                            password=sha256_crypt.encrypt(str('#user@2017'))))
         db.session.commit()
 
     @staticmethod

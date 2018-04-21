@@ -1,5 +1,5 @@
 """ business routes """
-from flask import request, jsonify, Blueprint
+from flask import request, Blueprint
 from app import app
 from app.services.decorator_services import is_logged_in, valid_business_id
 from app.services.business_service import BusinessService

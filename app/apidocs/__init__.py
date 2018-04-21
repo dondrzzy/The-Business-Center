@@ -15,8 +15,10 @@ class Apidocs(object):
           "version" : "1.0.0",
           "title" : "The Business Center Api"
         },
-        "host" : "the-business-center-api.herokuapp.com",
-        "basePath" : "/m",
+        # "host" : "the-business-center-api.herokuapp.com",
+        "host" : "localhost:5000",
+        # "basePath" : "/m",
+        "basePath" : "/",
         "tags" : [ {
           "name" : "user",
           "description" : "Operations about user"
@@ -56,6 +58,46 @@ class Apidocs(object):
               }
             }
           },
+          "inline_response_201" : {
+            "properties" : {
+              "success" : {
+                "type" : "boolean",
+                "example" : True
+              },
+              "message" : {
+                "type" : "string",
+                "example" : "Account created successfully"
+              }
+            },
+            "example" : {
+              "success" : True,
+              "message" : "Account created successfully"
+            }
+          },
+          "inline_response_409" : {
+            "properties" : {
+              "success" : {
+                "type" : "boolean",
+                "example" : False
+              },
+              "message" : {
+                "type" : "string",
+                "example" : "Email already exists"
+              }
+            }
+          },
+          "inline_response_422" : {
+            "properties" : {
+              "success" : {
+                "type" : "boolean",
+                "example" : False
+              },
+              "message" : {
+                "type" : "string",
+                "example" : "Invalid email"
+              }
+            }
+          },
           "body" : {
             "type" : "object",
             "properties" : {
@@ -64,6 +106,46 @@ class Apidocs(object):
               },
               "password" : {
                 "type" : "string"
+              }
+            }
+          },
+          "inline_response_200" : {
+            "properties" : {
+              "success" : {
+                "type" : "boolean",
+                "example" : True
+              },
+              "token" : {
+                "type" : "string",
+                "example" : "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOjEzLCJleHAiOjE1MjM4MjM1NTV9.bHY7evUi35Q-y1brYpjDtbE4laKsH9xpGji90sNd"
+              }
+            },
+            "example" : {
+              "success" : True,
+              "token" : "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1aWQiOjEzLCJleHAiOjE1MjM4MjM1NTV9.bHY7evUi35Q-y1brYpjDtbE4laKsH9xpGji90sNd"
+            }
+          },
+          "inline_response_401" : {
+            "properties" : {
+              "success" : {
+                "type" : "boolean",
+                "example" : False
+              },
+              "message" : {
+                "type" : "string",
+                "example" : "Incorrect username or password"
+              }
+            }
+          },
+          "inline_response_404" : {
+            "properties" : {
+              "success" : {
+                "type" : "boolean",
+                "example" : False
+              },
+              "message" : {
+                "type" : "string",
+                "example" : "User not found"
               }
             }
           },
@@ -81,7 +163,51 @@ class Apidocs(object):
               }
             }
           },
-          "inline_response_200_businesss" : {
+          "inline_response_200_1" : {
+            "properties" : {
+              "success" : {
+                "type" : "boolean",
+                "example" : True
+              },
+              "message" : {
+                "type" : "string",
+                "example" : "Password reset Successfully"
+              }
+            },
+            "example" : {
+              "success" : True,
+              "message" : "Password reset Successfully"
+            }
+          },
+          "inline_response_200_2" : {
+            "properties" : {
+              "success" : {
+                "type" : "boolean",
+                "example" : True
+              },
+              "message" : {
+                "type" : "string",
+                "example" : "You are logged out"
+              }
+            },
+            "example" : {
+              "success" : True,
+              "message" : "You are logged out"
+            }
+          },
+          "inline_response_401_1" : {
+            "properties" : {
+              "success" : {
+                "type" : "boolean",
+                "example" : False
+              },
+              "message" : {
+                "type" : "string",
+                "example" : "Token is invalid"
+              }
+            }
+          },
+          "inline_response_200_3_businesss" : {
             "properties" : {
               "id" : {
                 "type" : "integer",
@@ -109,7 +235,7 @@ class Apidocs(object):
               "userId" : 1
             }
           },
-          "inline_response_200" : {
+          "inline_response_200_3" : {
             "properties" : {
               "success" : {
                 "type" : "boolean",
@@ -118,7 +244,7 @@ class Apidocs(object):
               "businesss" : {
                 "type" : "array",
                 "items" : {
-                  "$ref" : "#/definitions/inline_response_200_businesss"
+                  "$ref" : "#/definitions/inline_response_200_3_businesss"
                 }
               }
             },
@@ -139,7 +265,7 @@ class Apidocs(object):
               "success" : True
             }
           },
-          "inline_response_200_1" : {
+          "inline_response_200_4" : {
             "properties" : {
               "success" : {
                 "type" : "boolean",
@@ -155,7 +281,7 @@ class Apidocs(object):
               "success" : True
             }
           },
-          "inline_response_200_2" : {
+          "inline_response_200_5" : {
             "properties" : {
               "success" : {
                 "type" : "boolean",
@@ -181,7 +307,7 @@ class Apidocs(object):
               "success" : True
             }
           },
-          "inline_response_200_3_reviews" : {
+          "inline_response_200_6_reviews" : {
             "properties" : {
               "id" : {
                 "type" : "integer",
@@ -206,7 +332,7 @@ class Apidocs(object):
               "userId" : 1
             }
           },
-          "inline_response_200_3" : {
+          "inline_response_200_6" : {
             "properties" : {
               "success" : {
                 "type" : "boolean",
@@ -215,7 +341,7 @@ class Apidocs(object):
               "reviews" : {
                 "type" : "array",
                 "items" : {
-                  "$ref" : "#/definitions/inline_response_200_3_reviews"
+                  "$ref" : "#/definitions/inline_response_200_6_reviews"
                 }
               }
             },
@@ -234,7 +360,19 @@ class Apidocs(object):
               "success" : True
             }
           },
-          "inline_response_200_4" : {
+          "inline_response_404_1" : {
+            "properties" : {
+              "success" : {
+                "type" : "boolean",
+                "example" : False
+              },
+              "message" : {
+                "type" : "string",
+                "example" : "No business reviews"
+              }
+            }
+          },
+          "inline_response_201_1" : {
             "properties" : {
               "success" : {
                 "type" : "boolean",
@@ -248,6 +386,18 @@ class Apidocs(object):
             "example" : {
               "msg" : "Review posted successfully",
               "success" : True
+            }
+          },
+          "inline_response_404_2" : {
+            "properties" : {
+              "success" : {
+                "type" : "boolean",
+                "example" : False
+              },
+              "message" : {
+                "type" : "string",
+                "example" : "Business with id x not found"
+              }
             }
           }
         },
