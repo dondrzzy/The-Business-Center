@@ -14,5 +14,5 @@ def method_not_allowed(error):
 
 @app.errorhandler(500)
 def internal_server_error(error):
-    """ Return 404 not found for unkown endpoints """
+    """ Return 500 not found for internal server error """
     return jsonify({"success":False, "error":str(error)}), 500

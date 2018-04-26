@@ -1,20 +1,26 @@
 """ docs for app settings """
 import os
 BD = os.path.abspath(os.path.dirname(__file__))
-PDB = 'postgresql://postgres:engneerdon@localhost/tbc_db'
+PDB = 'postgresql://postgres:postgres@localhost/tbc_db'
 
 
 class Config(object):
     """docstring for Initial configs"""
     DEBUG = False
-    SECRET_KEY = '\x1er/\x8bwzo\xda"\xf2\x8d\x18\xa7\x176/\xb2\x84\xcc\xad\x0e\xdciS'
-    BUSINESSES_PER_PAGE = 4
+    SECRET_KEY = os.getenv('SECRET_KEY')
+    BUSINESSES_PER_PAGE = 5
+    MAIL_SERVER = os.getenv('MAIL_SERVER')
+    MAIL_PORT = os.getenv('MAIL_PORT')
+    MAIL_USERNAME = os.getenv('MAIL_USERNAME')
+    MAIL_PASSWORD = os.getenv('MAIL_PASSWORD')
+    MAIL_USE_TLS = True
+    MAIL_USE_SSL = False
+    FRONT_END_URL = 'http://localhost:3000/'
 
 
 class DevelopmentConfig(Config):
     """docstring for Development"""
     DEBUG = True
-    SECRET_KEY = os.getenv('SECRET_KEY', Config.SECRET_KEY)
     SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', PDB)
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
@@ -30,6 +36,7 @@ class ProductionConfig(Config):
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    FRONT_END_URL = 'https://the-business-center.herokuapp.com/'
 
 CONF = dict(
     development=DevelopmentConfig,

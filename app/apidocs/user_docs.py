@@ -2,7 +2,7 @@ class Userdocs(object):
     """docstring for Userdocs"""
     def __init__(self, arg=0):
         self.arg = arg
-        
+    @staticmethod
     def register_user():
         return {
             "post" : {
@@ -42,7 +42,7 @@ class Userdocs(object):
               }
             }
           }
-
+    @staticmethod
     def login_user():
         return {
             "post" : {
@@ -82,6 +82,7 @@ class Userdocs(object):
               }
             }
           }
+    @staticmethod
     def reset_password():
         return {
             "post" : {
@@ -120,6 +121,7 @@ class Userdocs(object):
               }
             }
           }
+    @staticmethod
     def logout():
         return {
             "post" : {

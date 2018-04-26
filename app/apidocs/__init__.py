@@ -31,18 +31,18 @@ class Apidocs(object):
         } ],
         "schemes" : [ "https" ],
         "paths" : {
-          "/api/v1/auth/register" : Userdocs.register_user(),
-          "/api/v1/auth/login" : Userdocs.login_user(),
-          "/api/v1/auth/reset-password" : Userdocs.reset_password(),
-          "/api/v1/auth/logout" : Userdocs.logout(),
-          "/api/v1/businesses" : Businessdocs.post_get_businesses(),
-          "/api/v1/businesses/{businessId}" : Businessdocs.get_put_delete_business(),
-          "/api/v1/businesses/{businessId}/reviews" : Reviewdocs.post_get_reviews()
+          "/api/v1/auth/register" : Userdocs().register_user(),
+          "/api/v1/auth/login" : Userdocs().login_user(),
+          "/api/v1/auth/reset-password" : Userdocs().reset_password(),
+          "/api/v1/auth/logout" : Userdocs().logout(),
+          "/api/v1/businesses" : Businessdocs().post_get_businesses(),
+          "/api/v1/businesses/{businessId}" : Businessdocs().get_put_delete_business(),
+          "/api/v1/businesses/{businessId}/reviews" : Reviewdocs().post_get_reviews()
         },
         "definitions" : {
-          "User" : Define.user(),
-          "Business" : Define.business(),
-          "Review" : Define.review(),
+          "User" : Define().user(),
+          "Business" : Define().business(),
+          "Review" : Define().review(),
           "ApiResponse" : {
             "type" : "object",
             "properties" : {

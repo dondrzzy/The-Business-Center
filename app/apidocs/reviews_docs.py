@@ -2,7 +2,7 @@ class Reviewdocs(object):
     """docstring for Reviewdocs"""
     def __init__(self, arg=0):
         self.arg = arg
-
+    @staticmethod
     def post_get_reviews():
         return {
             "get" : {

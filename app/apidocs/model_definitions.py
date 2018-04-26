@@ -2,7 +2,7 @@ class Define(object):
     """docstring for User"""
     def __init__(self, arg=0):
         self.arg = arg
-
+    @staticmethod
     def user():
         return {
             "type" : "object",
@@ -27,7 +27,7 @@ class Define(object):
               "name" : "User"
             }
           }
-
+    @staticmethod
     def business():
         return {
             "type" : "object",
@@ -54,7 +54,7 @@ class Define(object):
               "name" : "Business"
             }
           }
-
+    @staticmethod
     def review():
         return {
             "type" : "object",
@@ -83,7 +83,7 @@ class Define(object):
               "name" : "Review"
             }
           }
-
+    @staticmethod
     def api_resopnse():
         return 
 

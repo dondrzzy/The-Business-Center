@@ -35,14 +35,13 @@ class ReviewService(object):
     def get_business_reviews(business_id):
         """ get a business reviews """
         reviews = Review.get_business_reviews(business_id)
-        if not reviews:
-            return jsonify({"success":False, "msg":"No Business Reviews"}), 404
         output = []
         for review in reviews:
             review_object = {
                 'id':review.id,
                 'text':review.text,
-                'user':review.user.name
+                'user':review.user.name,
+                'created_at': review.created_at
             }
             output.append(review_object)
         return jsonify({"success":True, "reviews":output}), 200

@@ -2,7 +2,7 @@ class Businessdocs(object):
     """docstring for Businessdocs"""
     def __init__(self, arg=0):
         self.arg = arg
-
+    @staticmethod
     def post_get_businesses():
         return {
             "get" : {
@@ -154,7 +154,7 @@ class Businessdocs(object):
               }
             }
           }
-
+    @staticmethod
     def get_put_delete_business():
         return {
             "get" : {

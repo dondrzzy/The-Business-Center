@@ -59,3 +59,15 @@ def reset_password():
     """ reset a password """
     data = request.get_json()
     return US.reset_password(data)
+
+@USERS_BLUEPRINT.route('/forgot-password', methods=['POST'])
+def forgot_password():
+    """ reset a password """
+    data = request.get_json()
+    return US.forgot_password(data)
+
+@USERS_BLUEPRINT.route('/verify-password-token', methods=['POST'])
+def verify_password_token():
+    """ verify reset token """
+    data = request.get_json()
+    return US.verify_password_token(data)

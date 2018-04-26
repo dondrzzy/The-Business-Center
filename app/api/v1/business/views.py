@@ -50,7 +50,6 @@ def get_user_businesses(current_user):
     # get page nuumber
     page = request.args.get('page', 1, type=int)
     limit = request.args.get('limit', app.config["BUSINESSES_PER_PAGE"], type=int)
-
     return BS.get_user_businesses(page, limit, search_string, location, category, current_user)
 
 
@@ -77,3 +76,14 @@ def update_business(current_user, business_id):
 def delete_business(current_user, business_id):
     """ delete a business route"""
     return BS.delete_business(business_id, current_user)
+
+@BUSINESS_BLUEPRINT.route('/businesses/category', methods=['POST'])
+def register_category():
+    """ register a category """
+    category = request.get_json()
+    return BS.register_category(category)
+
+@BUSINESS_BLUEPRINT.route('/businesses/category', methods=['GET'])
+def get_categories():
+    """ register a category """
+    return BS.get_categories()

@@ -4,6 +4,7 @@ import jwt
 from flasgger import Swagger
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from flask_mail import Mail
 from flask_sqlalchemy import SQLAlchemy
 from app.apidocs import Apidocs
 from app.config import CONF
@@ -23,6 +24,7 @@ swagger = Swagger(app)
 ENV = os.getenv("ENVIRON", 'testing')
 app.config.from_object(CONF[ENV])
 
+mail = Mail(app)
 db = SQLAlchemy(app)
 
 # import application error views

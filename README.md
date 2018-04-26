@@ -71,7 +71,9 @@ The following instructions will get you up and running with a copy of this API o
 
 > python run.py or python manage.py runserver
 
-Check out the API docs online  **[here](https://the-business-center-api.herokuapp.com/apidocs)**
+Check out the ReadMe file online **[here]https://github.com/dondrzzy/The-Business-Center)**
+
+Check out the API docs online **[here](https://the-business-center-api.herokuapp.com/apidocs)**
 
 You can also use postman to test the endpoints
 
