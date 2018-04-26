@@ -20,7 +20,7 @@ app.config['SWAGGER'] = Apidocs.swagger_conf
 swagger = Swagger(app)
 
 #Configuration Parameters for the app environment
-ENV = os.getenv("ENVIRON", 'testing')
+ENV = os.getenv("ENVIRON", 'production')
 app.config.from_object(CONF[ENV])
 
 db = SQLAlchemy(app)

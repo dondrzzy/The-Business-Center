@@ -42,17 +42,17 @@ def login():
 @USERS_BLUEPRINT.route('/logout', methods=['GET'])
 def logout():
     """ logout route """
-    _token = None
+    token = None
     if 'x-access-token' in request.headers:
-        _token = request.headers['x-access-token']
-    if not _token:
+        token = request.headers['x-access-token']
+    if not token:
         return jsonify({'success':False, 'message':'Token is missing', 'token':False}), 401
     try:
-        jwt.decode(_token, app.config['SECRET_KEY'])
+        jwt.decode(token, app.config['SECRET_KEY'])
     except:
         return jsonify({'success':False, 'message':'Token is invalid', 'token':False}), 401
 
-    return jsonify(TS.blacklist(_token)), 200
+    return jsonify(TS.blacklist(token)), 200
 
 @USERS_BLUEPRINT.route('/reset-password', methods=['POST'])
 def reset_password():

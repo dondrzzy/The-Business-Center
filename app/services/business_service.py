@@ -106,23 +106,23 @@ class BusinessService(object):
             valid_input_res = self.validate_business_input(business)
             if valid_input_res["success"]:
 
-                _business = Business.get_business(business_id)
+                registered_business = Business.get_business(business_id)
 
-                if not _business:
+                if not registered_business:
                     return jsonify({"success":False,
                                     "message":"Business\
-                                    with id "+business_id+" not found"}),404
+                                    with id "+business_id+" not found"}), 404
 
-                if _business.user_id != user_id:
+                if registered_business.user_id != user_id:
                     return jsonify({"success":False,
                                     "message":"You can not perform that action"}), 401
 
-                _business = Business.update_business(business_id, business)
+                registered_business = Business.update_business(business_id, business)
                 business_object = {
-                    'id':_business.id,
-                    'name':_business.name,
-                    'category':_business.category,
-                    'location':_business.location
+                    'id':registered_business.id,
+                    'name':registered_business.name,
+                    'category':registered_business.category,
+                    'location':registered_business.location
                 }
                 return jsonify({"success":True, "message":"Business updated successfully",
                                 "business":business_object}), 200

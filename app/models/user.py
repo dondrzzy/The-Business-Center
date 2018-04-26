@@ -26,14 +26,14 @@ class User(db.Model):
         return User.query.filter_by(id=user_id).first()
 
     @staticmethod
-    def email_exists(_user):
+    def email_exists(user):
         """ check if email exists in db """
-        return User.query.filter_by(email=_user["email"]).first()
+        return User.query.filter_by(email=user["email"]).first()
 
 
     @staticmethod
-    def reset_password(_user):
+    def reset_password(user):
         """ docstsing for resetting db password """
-        user = User.query.filter_by(email=_user["email"]).first()
-        user.password = _user["password"]
+        registered_user = User.query.filter_by(email=user["email"]).first()
+        registered_user.password = user["password"]
         db.session.commit()

@@ -154,19 +154,6 @@ class TestBusinessEndpoints(BaseTestCase):
                               content_type='application/json')
         self.assertEqual(res.status_code, 422)
 
-    def test_update_missing_input(self):
-        """ test update business fail due to missing input """
-        # login
-        token = self.login_test_user()
-        # create business
-        self.create_test_business(token)
-        # update business
-        new_data = json.dumps(dict(name="Business", category="IT", location="#$%^"))
-        res = self.client.put('/api/v1/businesses/1', data=new_data,
-                              headers={'x-access-token':token},
-                              content_type='application/json')
-        self.assertEqual(res.status_code, 422)
-
     def test_update_unknown_business(self):
         """ docs for updating business """
         # login
@@ -188,8 +175,8 @@ class TestBusinessEndpoints(BaseTestCase):
         self.create_test_business(token)
         # logout
         self.client.get('/api/v1/auth/logout',
-                                   headers={'x-access-token':token},
-                                   content_type='application/json')
+                        headers={'x-access-token':token},
+                        content_type='application/json')
         # register
         data = self.get_unregistered_user()
         self.client.post('/api/v1/auth/register', data=data, content_type='application/json')

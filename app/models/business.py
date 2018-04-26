@@ -40,15 +40,15 @@ class Business(db.Model):
         return Business.query.filter_by(id=business_id).first()
 
     @staticmethod
-    def update_business(business_id, _business):
+    def update_business(business_id, business):
         """ updates a business """
-        business = Business.query.filter_by(id=business_id).first()
+        registered_business = Business.query.filter_by(id=business_id).first()
 
-        business.name = _business["name"]
-        business.category = _business["category"]
-        business.location = _business["location"]
+        registered_business.name = business["name"]
+        registered_business.category = business["category"]
+        registered_business.location = business["location"]
         db.session.commit()
-        return business
+        return registered_business
 
     @staticmethod
     def delete_business(business_id):
