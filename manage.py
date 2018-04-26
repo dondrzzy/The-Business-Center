@@ -10,8 +10,8 @@ from app.models.token import Token
 
 from app.config import CONF
 
-# ENV = os.getenv("ENVIRON", 'testing')
-app.config.from_object(CONF['development'])
+ENV = os.getenv("ENVIRON", 'testing')
+app.config.from_object(CONF[ENV])
 migrate = Migrate(app, db)
 
 manager = Manager(app)
