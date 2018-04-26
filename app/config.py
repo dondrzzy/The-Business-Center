@@ -2,8 +2,10 @@
 import os
 BD = os.path.abspath(os.path.dirname(__file__))
 PDB = 'postgresql://postgres:engneerdon@localhost/tbc_db'
-HDB = 'postgres://fhdizlfioazvye:158df7e8e77540d8b65b4bce2cc3773aa6ef2e5a7675305fa855da9c53c6508a \
-        @ec2-54-225-249-161.compute-1.amazonaws.com:5432/dcsv4cj7150243'
+HDB = 'postgres://zerrioyuttfxat:49eb4e86f9d2818d775544f7d0fc2862a49bca438084ba2ad063083d4cea225d\
+       @ec2-23-23-248-192.compute-1.amazonaws.com:5432/d8l2juqhotc1du'
+
+
 
 class Config(object):
     """docstring for Initial configs"""
