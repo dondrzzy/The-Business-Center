@@ -16,7 +16,7 @@ class Apidocs(object):
           "title" : "The Business Center Api"
         },
         # "host" : "the-business-center-api.herokuapp.com",
-        "host" : "localhost:5000",
+        "host" : "the-business-center-api.herokuapp.com",
         # "basePath" : "/m",
         "basePath" : "/",
         "tags" : [ {
