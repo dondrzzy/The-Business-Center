@@ -13,4 +13,5 @@ app/**/_pychache__/
 /venv/
 *.pyc
 .coverage
+.env
 

@@ -2,9 +2,6 @@
 import os
 BD = os.path.abspath(os.path.dirname(__file__))
 PDB = 'postgresql://postgres:engneerdon@localhost/tbc_db'
-HDB = 'postgres://zerrioyuttfxat:49eb4e86f9d2818d775544f7d0fc2862a49bca438084ba2ad063083d4cea225d\
-       @ec2-23-23-248-192.compute-1.amazonaws.com:5432/d8l2juqhotc1du'
-
 
 
 class Config(object):
@@ -31,7 +28,7 @@ class TestingConfig(Config):
 class ProductionConfig(Config):
     """docstring for production"""
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', HDB)
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 CONF = dict(

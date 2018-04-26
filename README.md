@@ -49,7 +49,7 @@ The following instructions will get you up and running with a copy of this API o
 #### Set up your database and Environment variables
     Make sure your postgres service is running. Check task manager processes for confirmation.
     
-    Set up your postgres datase with a your "username" and "password"
+    Set up your postgres datase with your "username" and "password"
     
     In the root directory of your application, create a .env file and set the following
 
@@ -59,21 +59,19 @@ The following instructions will get you up and running with a copy of this API o
 
 #### Run the migrations to create your database
   
-    creae the migrations
+    create the migrations
     (venv)$ python manage.py db init
-   
-    create the Migrations script
     (venv)$ python manage.py db migrate
     
-    Populate your databse with the tables
+    Populate your database with the tables
     (venv)$ python manage.py db upgrade
 
 
 ##### Start the application
 
-> python run.py
+> python run.py or python manage.py runserver
 
-Open your favorite browser, preferrably google chrome and route to  **[this location](http://127.0.0.1:5000/apidocs)** for instructions
+Check out the API docs online  **[here](https://the-business-center-api.herokuapp.com/apidocs)**
 
 You can also use postman to test the endpoints
 
@@ -99,7 +97,7 @@ You can also use postman to test the endpoints
 The application is tested using pytest with coverage. Install pytest to run your tests and in your terminal, run...
 
 ```
-> pytest app
+> pytest --cov=app
 ```
 
 ## Deployment
